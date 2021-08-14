@@ -18,23 +18,27 @@ Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
 
 Route::group(['middleware' => ['auth']], function () {
 
+    // Home y perfil
     Route::group(['middleware' => ['can:home']], function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('/profile', 'ProfileController@edit')->name('profile');
         Route::post('/profile', 'ProfileController@update')->name('profile.update');
     });
 
-    Route::group(['middleware' => ['can:abm usuarios']], function () {
-        Route::resource('users', 'UserController');
-        Route::resource('roles', 'RoleController');
-        Route::resource('permissions', 'PermissionController');
-        Route::get('/impersonate/{user_id}', 'UserController@impersonate')->name('impersonate');
-
-        // Auditoria
-        Route::get('audits', 'AuditController@index')->name('audits.index');
+    // Usuarios y permisos
+    Route::group(['middleware' => ['can:crud usuarios']], function () {
+        Route::resource('users', 'UserController')->middleware('can:crud usuarios');
+        Route::resource('roles', 'RoleController')->middleware('can:crud roles');
+        Route::resource('permissions', 'PermissionController')->middleware('can:crud permisos');
+        Route::get('/impersonate/{user_id}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate');
     });
     Route::get('/impersonate_leave', 'UserController@impersonateLeave')->name('impersonate_leave');
+    
+    // Auditoria
+    Route::get('audits', 'AuditController@index')->name('audits.index')->middleware('can:audits-logs');
 
+    // Veterinarias
+    Route::resource('veterinarias', 'VeterinariaController')->middleware('can:crud usuarios');
 });
 
 // locale Route

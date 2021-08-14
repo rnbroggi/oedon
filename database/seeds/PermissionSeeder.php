@@ -17,5 +17,7 @@ class PermissionSeeder extends Seeder
         Permission::updateOrCreate(['name' => 'crud usuarios', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud roles', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud permisos', 'guard_name' => 'web']);
+        Permission::updateOrCreate(['name' => 'impersonate', 'guard_name' => 'web']);
+        Permission::updateOrCreate(['name' => 'crud veterinarias', 'guard_name' => 'web']);
     }
 }

@@ -7,6 +7,12 @@
       "permission": "home"
     },
     {
+      "url": "/veterinarias",
+      "name": "Veterinarias",
+      "icon": "fa fa-building",
+      "permission": "crud veterinarias"
+    },
+    {
       "url": "",
       "navheader": "Configuración",
       "permission": "audit-logs"

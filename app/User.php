@@ -57,4 +57,9 @@ class User extends Authenticatable implements Auditable, HasMedia
     {
         return !$this->hasRole('administrador');
     }
+
+    public function veterinaria()
+    {
+        return $this->belongsTo(Veterinaria::class, 'veterinaria_id');
+    }
 }
