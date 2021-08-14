@@ -15,7 +15,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('abm usuarios');
+        return Auth::user()->can('crud usuarios');
     }
 
     /**
@@ -26,19 +26,20 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user)], // Validar que el email no se repita pero penmita seguir usando el mismo
-            'password' => 'nullable|confirmed|min:6',
-            'roles' => 'required|array',
-            'permissions' => 'nullable|array',
+            'name'           => 'required',
+            'email'          => ['required', 'email', Rule::unique('users')->ignore($this->user)], // Validar que el email no se repita pero penmita seguir usando el mismo
+            'password'       => 'nullable|confirmed|min:6',
+            'roles'          => 'required|array',
+            'permissions'    => 'nullable|array',
+            'veterinaria_id' => 'nullable|exists:veterinarias,id',
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => 'Nombre',
-            'password' => 'Contraseña',
+            'name'        => 'Nombre',
+            'password'    => 'Contraseña',
             'permissions' => 'Permisos',
         ];
     }

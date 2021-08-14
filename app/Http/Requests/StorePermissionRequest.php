@@ -14,7 +14,7 @@ class StorePermissionRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('abm usuarios');
+        return Auth::user()->can('crud permisos');
     }
 
     /**
@@ -25,8 +25,8 @@ class StorePermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'users' => 'nullable|array',
+            'name'        => 'required',
+            'users'       => 'nullable|array',
             'permissions' => 'nullable|array',
         ];
     }
@@ -34,9 +34,9 @@ class StorePermissionRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'Nombre',
+            'name'        => 'Nombre',
             'permissions' => 'Permisos',
-            'users' => 'Usuarios',
+            'users'       => 'Usuarios',
         ];
     }
 }

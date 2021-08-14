@@ -26,7 +26,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', Rule::unique('users')->ignore(Auth::user())], // Validar que el email no se repita pero penmita seguir usando el mismo
+            'email'    => ['required', 'email', Rule::unique('users')->ignore(Auth::user())], // Validar que el email no se repita pero penmita seguir usando el mismo
             'password' => 'nullable|confirmed|min:6',
             'avatar'   => 'nullable|image'
         ];
@@ -35,7 +35,7 @@ class UpdateProfileRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'Nombre',
+            'name'     => 'Nombre',
             'password' => 'Contraseña',
         ];
     }

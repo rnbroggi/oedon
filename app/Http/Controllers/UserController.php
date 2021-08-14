@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Veterinaria;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -24,7 +25,7 @@ class UserController extends Controller
             ['link' => "/", 'name' => "Home"], ['name' => "Usuarios"]
         ];
 
-        $users = User::with('roles')->select('id', 'name', 'email')->get();
+        $users = User::with('roles', 'veterinaria:id,nombre')->select('id', 'name', 'email', 'veterinaria_id')->get();
         return view('users.index', compact('users', 'breadcrumbs'));
     }
 
@@ -41,8 +42,9 @@ class UserController extends Controller
 
         $roles = Role::select('id', 'name')->get();
         $permissions = Permission::select('id', 'name')->get();
+        $veterinarias = Veterinaria::select('id', 'nombre')->get();
 
-        return view('users.create', compact('breadcrumbs', 'roles', 'permissions'));
+        return view('users.create', compact('breadcrumbs', 'roles', 'permissions', 'veterinarias'));
     }
 
     /**
@@ -56,9 +58,10 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $user = User::create([
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'password' => bcrypt($request->password),
+                'name'           => $request->name,
+                'email'          => $request->email,
+                'veterinaria_id' => $request->veterinaria_id,
+                'password'       => bcrypt($request->password),
             ]);
 
             $user->syncRoles($request->roles);
@@ -102,8 +105,9 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $roles = Role::select('id', 'name')->get();
         $permissions = Permission::select('id', 'name')->get();
+        $veterinarias = Veterinaria::select('id', 'nombre')->get();
 
-        return view('users.edit', compact('user', 'roles', 'permissions', 'breadcrumbs'));
+        return view('users.edit', compact('user', 'roles', 'permissions', 'breadcrumbs', 'veterinarias'));
     }
 
     /**
@@ -120,9 +124,10 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $user->update([
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'password' => $request->password ? bcrypt($request->password) : $user->password,
+                'name'           => $request->name,
+                'email'          => $request->email,
+                'veterinaria_id' => $request->veterinaria_id,
+                'password'       => $request->password ? bcrypt($request->password) : $user->password,
             ]);
 
             $user->syncRoles($request->roles);

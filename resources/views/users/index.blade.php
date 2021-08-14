@@ -47,6 +47,7 @@
                                             <th>Nombre</th>
                                             <th>Email</th>
                                             <th>Roles</th>
+                                            <th>Veterinaria</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -57,6 +58,7 @@
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->roles->implode('name', ', ') }} </td>
+                                                <td>{{ $user->veterinaria->nombre ?? null }}</td>
                                                 <td>
                                                     <a href="{{ route('users.edit', $user->id) }}">
                                                         <i class="feather icon-edit"></i>

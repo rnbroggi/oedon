@@ -14,7 +14,7 @@ class StoreRoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('abm usuarios');
+        return Auth::user()->can('crud roles');
     }
 
     /**
@@ -25,8 +25,8 @@ class StoreRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'roles' => 'nullable|array',
+            'name'        => 'required',
+            'roles'       => 'nullable|array',
             'permissions' => 'nullable|array',
         ];
     }
@@ -34,7 +34,7 @@ class StoreRoleRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'Nombre',
+            'name'        => 'Nombre',
             'permissions' => 'Permisos',
         ];
     }
