@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Lab404\Impersonate\Models\Impersonate;
@@ -61,5 +62,13 @@ class User extends Authenticatable implements Auditable, HasMedia
     public function veterinaria()
     {
         return $this->belongsTo(Veterinaria::class, 'veterinaria_id');
+    }
+
+    public function scopeByVeterinaria($query)
+    {
+        $logged_user = Auth::user();
+        if($logged_user->hasRole('superadmin')) return;
+
+        return $query->where('veterinaria_id', $logged_user->veterinaria_id);
     }
 }

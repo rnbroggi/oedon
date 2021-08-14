@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Veterinarias
     Route::resource('veterinarias', 'VeterinariaController')->middleware('can:crud usuarios');
+
+    // Clientes
+    Route::get('clientes', 'ClienteController@index')->middleware('can:view clientes');
 });
 
 // locale Route
