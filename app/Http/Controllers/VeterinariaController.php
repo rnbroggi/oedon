@@ -62,7 +62,11 @@ class VeterinariaController extends Controller
      */
     public function show(Veterinaria $veterinaria)
     {
-        //
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/veterinarias", 'name' => "Veterinarias"], ['name' => "Detalle veterinaria"]
+        ];
+
+        return view('veterinarias.show', compact('veterinaria', 'breadcrumbs'));
     }
 
     /**

@@ -12,9 +12,11 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Role::updateOrCreate(['name' => 'superadmin']);
-        Role::updateOrCreate(['name' => 'administrativo']);
-        Role::updateOrCreate(['name' => 'veterinario']);
-        Role::updateOrCreate(['name' => 'cliente']);
+        $roles = ['superadmin', 'administrativo', 'veterinario', 'cliente'];
+
+        foreach ($roles as $role_name) {
+            $r = Role::updateOrCreate(['name' => $role_name]);
+            $r->givePermissionTo('home');
+        }
     }
 }

@@ -60,6 +60,9 @@
                                                 <td>{{ $veterinaria->email }}</td>
                                                 <td>{{ $veterinaria->telefono }}</td>
                                                 <td>
+                                                    <a href="{{ route('veterinarias.show', $veterinaria->id) }}">
+                                                        <i class="feather icon-eye"></i>
+                                                    </a>
                                                     <a href="{{ route('veterinarias.edit', $veterinaria->id) }}">
                                                         <i class="feather icon-edit"></i>
                                                     </a>

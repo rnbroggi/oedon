@@ -12,8 +12,8 @@ class Veterinaria extends Model
     protected $table = 'veterinarias';
     protected $guarded = ['id'];
 
-    public function user()
+    public function users()
     {
-        return $this->hasOne(User::class, 'Veterinaria_id', 'id');
+        return $this->hasMany(User::class, 'Veterinaria_id', 'id');
     }
 }

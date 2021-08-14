@@ -50,12 +50,12 @@ class User extends Authenticatable implements Auditable, HasMedia
 
     public function canImpersonate()
     {
-        return $this->hasRole('administrador');
+        return $this->hasRole('superadmin');
     }
 
     public function canBeImpersonated()
     {
-        return !$this->hasRole('administrador');
+        return !$this->hasRole('superadmin');
     }
 
     public function veterinaria()
