@@ -1,0 +1,55 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "feather icon-home",
+      "permission": "home"
+    },
+    {
+      "url": "",
+      "navheader": "Configuración",
+      "permission": "audit-logs"
+    },
+    {
+      "url": "usuarios",
+      "name": "Usuarios",
+      "slug": "usuarios",
+      "icon": "feather icon-users",
+      "permission": "crud usuarios",
+      "submenu": [
+        {
+          "url": "users",
+          "name": "Usuarios",
+          "icon": "feather icon-circle",
+          "permission": "crud usuarios"
+        },
+        {
+          "url": "roles",
+          "name": "Roles",
+          "icon": "feather icon-circle",
+          "permission": "crud roles"
+        },
+        {
+          "url": "permissions",
+          "name": "Permisos",
+          "icon": "feather icon-circle",
+          "permission": "crud permisos"
+        }
+      ]
+    },
+    {
+      "url": "/log-viewer",
+      "name": "Logs",
+      "target": "_blank",
+      "icon": "feather icon-file-text",
+      "permission": "audit-logs"
+    },
+    {
+      "url": "/audits",
+      "name": "Auditoría",
+      "icon": "feather icon-book-open",
+      "permission": "audit-logs"
+    }
+  ]
+}
