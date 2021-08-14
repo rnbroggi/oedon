@@ -27,7 +27,6 @@ class StoreVeterinaria extends FormRequest
         return [
             'nombre'     => 'required|string|max:255',
             'direccion'  => 'nullable|string|max:255',
-            'direccion'  => 'nullable|string|max:255',
             'email'      => 'nullable|email|string|max:255',
             'telefono'   => 'nullable|string|max:255',
         ];

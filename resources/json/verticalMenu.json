@@ -13,6 +13,12 @@
       "permission": "crud veterinarias"
     },
     {
+      "url": "/clientes",
+      "name": "Clientes",
+      "icon": "fa fa-users",
+      "permission": "crud clientes"
+    },
+    {
       "url": "",
       "navheader": "Configuración",
       "permission": "audit-logs"
