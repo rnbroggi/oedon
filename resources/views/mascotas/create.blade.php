@@ -136,7 +136,79 @@
                                                 <label for="foto">Foto</label>
                                                 <input type="file" class="form-control-file" id="foto" name="foto">
                                             </div>
-                                        </div>                                   
+                                        </div>  
+
+                                        <div class="col-12">
+                                            <label for="observaciones">Observaciones</label>
+                                            <fieldset class="form-label-group">
+                                                <textarea class="form-control" name="observaciones" rows="3"
+                                                    placeholder="Observaciones">{{ old('observaciones') }}</textarea>
+                                                <label for="observaciones">Observaciones</label>
+                                            </fieldset>
+                                        </div>
+
+                                        <h3 class="col-12">Datos del dueño</h3>
+
+                                        <div class="col-lg-2 col-md-6 col-12 mt-md-2">
+                                            <input type="checkbox" name="owner_exists" id="owner_exists"> Dueño ya registrado
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12 mt-sm-1 mt-md-0" id="cliente_id">
+                                            <div class="form-group">
+                                                <label for="cliente_id">Dueño</label>
+                                                <select class="select2 form-control" name="cliente_id">
+                                                    <option value="" selected disabled hidden>Seleccionar</option>
+                                                    @foreach ($clientes as $cliente)
+                                                        <option value="{{ $cliente->id }}" @if (old('cliente_id') != null)  @if ($cliente->id==old('cliente_id'))
+                                                            selected @endif
+                                                    @endif>{{ ucfirst($cliente->name) }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12"></div>
+                                        
+                                        <div class="col-md-6 col-12 mt-md-2" id="nombre_cliente">
+                                            <div class="form-group">
+                                                <div class="form-label-group controls">
+                                                    <input type="text" class="form-control" placeholder="Nombre" name="nombre_cliente"
+                                                        value="{{ old('nombre_cliente') }}" required>
+                                                    <label for="nombre_cliente">Nombre</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mt-md-2" id="email_cliente">
+                                            <div class="form-group">
+                                                <div class="form-label-group controls">
+                                                    <input type="email" class="form-control" placeholder="Email" name="email_cliente"
+                                                        value="{{ old('email_cliente') }}" required>
+                                                    <label for="email_cliente">Email</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mt-md-2" id="telefono_cliente">
+                                            <div class="form-group">
+                                                <div class="form-label-group controls">
+                                                    <input type="text" class="form-control" placeholder="Teléfono" name="telefono_cliente"
+                                                        value="{{ old('telefono_cliente') }}" required>
+                                                    <label for="telefono_cliente">Teléfono</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mt-md-2" id="password">
+                                            <div class="form-group">
+                                                <div class="form-label-group controls">
+                                                    <input type="password" class="form-control" placeholder="Contraseña" name="password"
+                                                        value="{{ old('password') }}" required>
+                                                    <label for="password">Contraseña</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                         
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
                                             <button type="reset"
@@ -166,6 +238,8 @@
 
     <script>
         $(document).ready(function () {
+            $("#cliente_id").hide();
+
             $('#animal_id').change(function (e) { 
                 let animal_id = this.value;
                 let razas = @json($razas);
@@ -184,6 +258,26 @@
                     }
                 }
                 
+            });
+
+            $('#owner_exists').change(function (e) { 
+                if(this.checked){
+                    $('#cliente_id').prop("disabled", false);
+                    $("#cliente_id").show();
+                    
+                    $('#nombre_cliente').hide();
+                    $('#email_cliente').hide();
+                    $('#telefono_cliente').hide();
+                    $('#password').hide();
+                }else{
+                    $('#cliente_id').prop("disabled", true);
+                    $("#cliente_id").hide();
+
+                    $('#nombre_cliente').show();
+                    $('#email_cliente').show();
+                    $('#telefono_cliente').show();
+                    $('#password').show();
+                }                
             });
         });
     </script>
