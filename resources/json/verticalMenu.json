@@ -25,6 +25,12 @@
       "permission": "crud razas"
     },
     {
+      "url": "/mascotas",
+      "name": "Mascotas",
+      "icon": "fa fa-paw",
+      "permission": "crud mascotas"
+    },
+    {
       "url": "",
       "navheader": "Configuración",
       "permission": "audit-logs"

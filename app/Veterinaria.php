@@ -26,6 +26,6 @@ class Veterinaria extends Model implements Auditable
 
     public function users()
     {
-        return $this->hasMany(User::class, 'Veterinaria_id', 'id');
+        return $this->hasMany(User::class, 'veterinaria_id', 'id');
     }
 }

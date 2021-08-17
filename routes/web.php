@@ -45,6 +45,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Razas
     Route::resource('razas', 'RazaController')->middleware('can:crud razas');
+
+    // Mascotas
+    Route::resource('mascotas', 'MascotaController')->middleware('can:crud mascotas');
 });
 
 // locale Route

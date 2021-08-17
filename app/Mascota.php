@@ -29,6 +29,11 @@ class Mascota extends Model implements Auditable, HasMedia
 
     public function cliente()
     {
-        return $this->belongsTo(User::class, 'cliente');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function visitas()
+    {
+        return $this->hasMany(User::class, 'mascota_id', 'id');
     }
 }
