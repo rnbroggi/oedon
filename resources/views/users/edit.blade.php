@@ -73,6 +73,18 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-label-group controls has-icon-left">
+                                                    <input type="text" class="form-control" placeholder="Teléfono"
+                                                        name="telefono" value="{{ $user->telefono }}">
+                                                    <div class="form-control-position">
+                                                        <i class="feather icon-phone"></i>
+                                                    </div>
+                                                    <label for="telefono">Teléfono</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="form-label-group controls has-icon-left">
                                                     <input type="password" class="form-control" placeholder="Contraseña"
                                                         name="password" value="">
                                                     <div class="form-control-position">

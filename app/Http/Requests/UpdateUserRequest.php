@@ -28,6 +28,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name'           => 'required',
             'email'          => ['required', 'email', Rule::unique('users')->ignore($this->user)], // Validar que el email no se repita pero penmita seguir usando el mismo
+            'telefono'       => 'nullable|max:255',
             'password'       => 'nullable|confirmed|min:6',
             'roles'          => 'required|array',
             'permissions'    => 'nullable|array',

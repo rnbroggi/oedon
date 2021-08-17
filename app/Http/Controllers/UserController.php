@@ -60,6 +60,7 @@ class UserController extends Controller
             $user = User::create([
                 'name'           => $request->name,
                 'email'          => $request->email,
+                'telefono'       => $request->telefono,
                 'veterinaria_id' => $request->veterinaria_id,
                 'password'       => bcrypt($request->password),
             ]);
@@ -126,6 +127,7 @@ class UserController extends Controller
             $user->update([
                 'name'           => $request->name,
                 'email'          => $request->email,
+                'telefono'       => $request->telefono,
                 'veterinaria_id' => $request->veterinaria_id,
                 'password'       => $request->password ? bcrypt($request->password) : $user->password,
             ]);

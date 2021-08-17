@@ -28,7 +28,7 @@ class User extends Authenticatable implements Auditable, HasMedia
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'veterinaria_id'
+        'name', 'email', 'telefono', 'password', 'veterinaria_id'
     ];
 
     /**
