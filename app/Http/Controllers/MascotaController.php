@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Animal;
+use App\Http\Requests\StoreMascota;
 use App\Mascota;
 use App\Raza;
 use App\Sexo;
@@ -85,9 +86,18 @@ class MascotaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMascota $request)
     {
-        //
+        dd($request->all());
+        $mascota = Mascota::create([
+            'nombre'           => $request->nombre,
+            'raza_id'          => $request->raza_id,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'peso'             => $request->peso,
+            'activo'           => $request->activo,
+            'sexo_id'          => $request->sexo_id,
+            'observaciones'    => $request->observaciones,
+        ]);
     }
 
     /**

@@ -41,7 +41,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form novalidate class="form" action="{{ route('mascotas.store') }}" method="POST">
+                            <form novalidate class="form" action="{{ route('mascotas.store') }}" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 <div class="form-body">
                                     <div class="row">
@@ -79,16 +79,16 @@
                                         <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-label-group">
                                                 <input type="date" class="form-control" placeholder="Fecha de Nacimiento"
-                                                    name="fecha_nacimiento" value="{{ old('fecha_nacimiento') ?? date('Y-m-d') }}" />
+                                                    name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" />
                                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                             </div>
                                         </div>  
                                         <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="number" class="form-control" placeholder="Peso actual" name="peso_actual"
-                                                        value="{{ old('peso_actual') }}" required>
-                                                    <label for="peso_actual">Peso actual</label>
+                                                    <input type="number" class="form-control" placeholder="Peso actual" name="peso"
+                                                        value="{{ old('peso') }}" required>
+                                                    <label for="peso">Peso actual</label>
                                                 </div>
                                             </div>
                                         </div>  
@@ -173,7 +173,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="text" class="form-control" placeholder="Nombre" name="nombre_cliente"
-                                                        value="{{ old('nombre_cliente') }}" required>
+                                                        value="{{ old('nombre_cliente') }}">
                                                     <label for="nombre_cliente">Nombre</label>
                                                 </div>
                                             </div>
@@ -183,7 +183,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="email" class="form-control" placeholder="Email" name="email_cliente"
-                                                        value="{{ old('email_cliente') }}" required>
+                                                        value="{{ old('email_cliente') }}">
                                                     <label for="email_cliente">Email</label>
                                                 </div>
                                             </div>
@@ -193,7 +193,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="text" class="form-control" placeholder="Teléfono" name="telefono_cliente"
-                                                        value="{{ old('telefono_cliente') }}" required>
+                                                        value="{{ old('telefono_cliente') }}">
                                                     <label for="telefono_cliente">Teléfono</label>
                                                 </div>
                                             </div>
@@ -203,7 +203,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="password" class="form-control" placeholder="Contraseña" name="password"
-                                                        value="{{ old('password') }}" required>
+                                                        value="{{ old('password') }}">
                                                     <label for="password">Contraseña</label>
                                                 </div>
                                             </div>
