@@ -57,7 +57,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="animal_id">Animal</label>
-                                                <select class="select2 form-control" name="animal_id">
+                                                <select class="select2 form-control" name="animal_id" id="animal_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($animales as $animal)
                                                         <option value="{{ $animal->id }}" @if (old('animal_id') != null)  @if ($animal->id==old('animal_id'))
@@ -71,14 +71,8 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="raza_id">Raza</label>
-                                                <select class="select2 form-control" name="raza_id">
+                                                <select class="select2 form-control" disabled name="raza_id" id="raza_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
-                                                    @foreach ($razas as $raza)
-                                                        <option value="{{ $raza->id }}" @if (old('raza_id') != null)  @if ($animal->id==old('raza_id'))
-                                                            selected @endif
-                                                    @endif>{{ ucfirst($raza->nombre) }}
-                                                    </option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div> 
@@ -169,4 +163,28 @@
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/forms/validation/form-validation.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/select/form-select2.js')) }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#animal_id').change(function (e) { 
+                let animal_id = this.value;
+                let razas = @json($razas);
+
+                $('#raza_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
+
+                if(animal_id != ''){
+                    $('#raza_id').prop("disabled", false);
+                    for (const raza of razas) {
+                        if(raza.animal_id == animal_id){
+                            $('#raza_id').append($('<option>', {
+                                value: raza.id,
+                                text: raza.nombre,
+                            }));
+                        }
+                    }
+                }
+                
+            });
+        });
+    </script>
 @endsection
