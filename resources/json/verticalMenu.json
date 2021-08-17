@@ -19,6 +19,12 @@
       "permission": "view clientes"
     },
     {
+      "url": "/razas",
+      "name": "Razas",
+      "icon": "fa fa-paw",
+      "permission": "crud razas"
+    },
+    {
       "url": "",
       "navheader": "Configuración",
       "permission": "audit-logs"

@@ -42,6 +42,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Clientes
     Route::get('clientes', 'ClienteController@index')->middleware('can:view clientes');
+
+    // Razas
+    Route::resource('razas', 'RazaController')->middleware('can:crud razas');
 });
 
 // locale Route

@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Veterinarias')
+@section('title', 'Razas')
 
 @section('page-style')
     {{-- Page Css files --}}
@@ -37,52 +37,35 @@
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Editar veterinaria {{ $veterinaria->nombre }}</h4>
+                        <h4 class="card-title">Crear raza</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form novalidate class="form" action="{{ route('veterinarias.update', $veterinaria->id) }}" method="POST">
+                            <form novalidate class="form" action="{{ route('razas.store') }}" method="POST">
                                 @csrf
-                                @method('PATCH')
                                 <div class="form-body">
                                     <div class="row">
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="text" class="form-control" placeholder="Nombre" name="nombre"
-                                                        value="{{ $veterinaria->nombre }}" required>
+                                                        value="{{ old('nombre') }}" required>
                                                     <label for="nombre">Nombre</label>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Dirección" name="direccion"
-                                                        value="{{ $veterinaria->direccion }}">
-                                                    <label for="direccion">Dirección</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="email" class="form-control" placeholder="Email" name="email"
-                                                        value="{{ $veterinaria->email }}">
-                                                    <label for="email">Email</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Teléfono" name="telefono"
-                                                        value="{{ $veterinaria->telefono }}">
-                                                    <label for="telefono">Teléfono</label>
-                                                </div>
+                                                <label for="animal_id">Animal</label>
+                                                <select class="select2 form-control" name="animal_id">
+                                                    <option value="" selected>Ninguno</option>
+                                                    @foreach ($animales as $animal)
+                                                        <option value="{{ $animal->id }}" @if (old('animal_id') != null)  @if ($animal->id==old('animal_id'))
+                                                            selected @endif
+                                                    @endif>{{ ucfirst($animal->nombre) }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12">

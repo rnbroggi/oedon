@@ -13,4 +13,9 @@ class Raza extends Model implements Auditable
 
     protected $table = 'razas';
     protected $guarded = ['id'];
+
+    public function animal()
+    {
+        return $this->belongsTo(Animal::class, 'animal_id');
+    }
 }

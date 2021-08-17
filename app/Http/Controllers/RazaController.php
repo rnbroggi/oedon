@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Animal;
+use App\Http\Requests\StoreRaza;
 use App\Raza;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,12 @@ class RazaController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['name' => "Razas"]
+        ];
+
+        $razas = Raza::with('animal:id,nombre')->select('id', 'nombre', 'animal_id')->orderBy('nombre')->get('id');
+        return view('razas.index', compact('razas', 'breadcrumbs'));
     }
 
     /**
@@ -24,7 +31,13 @@ class RazaController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/razas", 'name' => "Razas"], ['name' => "Crear raza"]
+        ];
+
+        $animales = Animal::select('id', 'nombre')->get();
+
+        return view('razas.create', compact('breadcrumbs', 'animales'));
     }
 
     /**
@@ -33,20 +46,12 @@ class RazaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRaza $request)
     {
-        //
-    }
+        $raza = Raza::create($request->validated());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Raza  $raza
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Raza $raza)
-    {
-        //
+        return redirect()->route('razas.index')
+                ->with('success', "Raza $raza->nombre creada correctamente");
     }
 
     /**
@@ -57,7 +62,13 @@ class RazaController extends Controller
      */
     public function edit(Raza $raza)
     {
-        //
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/razas", 'name' => "Razas"], ['name' => "Editar raza"]
+        ];
+
+        $animales = Animal::select('id', 'nombre')->get();
+
+        return view('razas.edit', compact('raza', 'breadcrumbs', 'animales'));
     }
 
     /**
@@ -67,9 +78,12 @@ class RazaController extends Controller
      * @param  \App\Raza  $raza
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Raza $raza)
+    public function update(StoreRaza $request, Raza $raza)
     {
-        //
+        $raza->update($request->validated());
+
+        return redirect()->route('razas.index')
+                ->with('success', "Raza $raza->nombre actualizada correctamente");
     }
 
     /**
@@ -80,6 +94,9 @@ class RazaController extends Controller
      */
     public function destroy(Raza $raza)
     {
-        //
+        $raza->delete();
+
+        return redirect()->route('razas.index')
+            ->with('success', "Raza $raza->nombre eliminada correctamente");
     }
 }
