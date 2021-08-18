@@ -31,6 +31,7 @@ class StoreMascota extends FormRequest
             'peso'               => 'nullable|integer',
             'activo'             => 'boolean',
             'sexo_id'            => 'integer|nullable|exists:sexos,id',
+            'veterinario_id'     => 'integer|exists:users,id',
             'foto'               => 'nullable|image',
             'observaciones'      => 'nullable|string',
         ];
@@ -41,6 +42,7 @@ class StoreMascota extends FormRequest
         return [
             'fecha_nacimiento' => 'Fecha de nacimiento',
             'raza_id'          => 'Raza',
+            'veterinario_id'   => 'Veterinario',
         ];
     }
 }

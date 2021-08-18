@@ -138,6 +138,21 @@
                                             </div>
                                         </div>  
 
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="veterinario_id">Veterinario</label>
+                                                <select class="select2 form-control" name="veterinario_id">
+                                                    <option value="" selected disabled hidden>Seleccionar</option>
+                                                    @foreach ($veterinarios as $veterinario)
+                                                        <option value="{{ $veterinario->id }}" @if (old('veterinario_id') != null)  @if ($veterinario->id==old('veterinario_id'))
+                                                            selected @endif
+                                                    @endif>{{ ucfirst($veterinario->name) }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div> 
+
                                         <div class="col-12">
                                             <label for="observaciones">Observaciones</label>
                                             <fieldset class="form-label-group">
@@ -152,13 +167,13 @@
                                         <div class="col-lg-2 col-md-6 col-12 mt-md-2">
                                             <input type="checkbox" name="owner_exists" id="owner_exists"> Dueño ya registrado
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-12 mt-sm-1 mt-md-0" id="cliente_id">
+                                        <div class="col-lg-4 col-md-6 col-12 mt-sm-1 mt-md-0" id="cliente">
                                             <div class="form-group">
-                                                <label for="cliente_id">Dueño</label>
-                                                <select class="select2 form-control" name="cliente_id">
+                                                <label for="cliente">Dueño</label>
+                                                <select class="select2 form-control" name="cliente">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($clientes as $cliente)
-                                                        <option value="{{ $cliente->id }}" @if (old('cliente_id') != null)  @if ($cliente->id==old('cliente_id'))
+                                                        <option value="{{ $cliente->id }}" @if (old('cliente') != null)  @if ($cliente->id==old('cliente'))
                                                             selected @endif
                                                     @endif>{{ ucfirst($cliente->name) }}
                                                     </option>
@@ -238,7 +253,7 @@
 
     <script>
         $(document).ready(function () {
-            $("#cliente_id").hide();
+            $("#cliente").hide();
 
             $('#animal_id').change(function (e) { 
                 let animal_id = this.value;
@@ -262,16 +277,16 @@
 
             $('#owner_exists').change(function (e) { 
                 if(this.checked){
-                    $('#cliente_id').prop("disabled", false);
-                    $("#cliente_id").show();
+                    $('#cliente').prop("disabled", false);
+                    $("#cliente").show();
                     
                     $('#nombre_cliente').hide();
                     $('#email_cliente').hide();
                     $('#telefono_cliente').hide();
                     $('#password').hide();
                 }else{
-                    $('#cliente_id').prop("disabled", true);
-                    $("#cliente_id").hide();
+                    $('#cliente').prop("disabled", true);
+                    $("#cliente").hide();
 
                     $('#nombre_cliente').show();
                     $('#email_cliente').show();
