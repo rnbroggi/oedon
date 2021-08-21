@@ -21,7 +21,7 @@
     {
       "url": "/razas",
       "name": "Razas",
-      "icon": "fa fa-paw",
+      "custom_icon": "razas",
       "permission": "crud razas"
     },
     {
