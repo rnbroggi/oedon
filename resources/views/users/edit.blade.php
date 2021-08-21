@@ -62,7 +62,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls has-icon-left">
                                                     <input type="email" class="form-control" placeholder="Email"
-                                                        name="email" value="{{ $user->email }}" required>
+                                                        name="email" value="{{ $user->email }}" required data-validation-email-message="Dirección de email inválida">
                                                     <div class="form-control-position">
                                                         <i class="feather icon-mail"></i>
                                                     </div>

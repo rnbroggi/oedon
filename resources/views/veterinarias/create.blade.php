@@ -67,7 +67,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="email" class="form-control" placeholder="Email" name="email"
-                                                        value="{{ old('email') }}">
+                                                        value="{{ old('email') }}" data-validation-email-message="Dirección de email inválida">
                                                     <label for="email">Email</label>
                                                 </div>
                                             </div>

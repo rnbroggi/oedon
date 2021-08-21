@@ -198,7 +198,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="email" class="form-control" placeholder="Email" name="email_cliente"
-                                                        value="{{ old('email_cliente') }}">
+                                                        value="{{ old('email_cliente') }}" data-validation-email-message="Dirección de email inválida">
                                                     <label for="email_cliente">Email</label>
                                                 </div>
                                             </div>

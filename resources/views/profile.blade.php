@@ -71,7 +71,7 @@
                                         <div class="controls">
                                             <label>E-mail</label>
                                             <input type="email" class="form-control" placeholder="Email" name="email"
-                                                value="{{ auth()->user()->email }}" required>
+                                                value="{{ auth()->user()->email }}" data-validation-email-message="Dirección de email inválida" required>
                                         </div>
                                     </div>
                                 </div>
