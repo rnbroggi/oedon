@@ -18,7 +18,7 @@ $configData = Helper::applClasses();
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - {{ config('app.name') }}</title>
-    <link rel="shortcut icon" type="image/x-icon" href="images/logo/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo/favicon.ico')}}">
 
     {{-- Include core + vendor Styles --}}
     @include('panels/styles')
