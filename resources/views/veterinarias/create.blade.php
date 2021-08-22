@@ -48,7 +48,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Nombre" name="nombre"
+                                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" placeholder="Nombre" name="nombre"
                                                         value="{{ old('nombre') }}" required>
                                                     <label for="nombre">Nombre</label>
                                                 </div>
@@ -57,7 +57,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Dirección" name="direccion"
+                                                    <input type="text" class="form-control @error('direccion') is-invalid @enderror" placeholder="Dirección" name="direccion"
                                                         value="{{ old('direccion') }}">
                                                     <label for="direccion">Dirección</label>
                                                 </div>
@@ -66,7 +66,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="email" class="form-control" placeholder="Email" name="email"
+                                                    <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email"
                                                         value="{{ old('email') }}" data-validation-email-message="Dirección de email inválida">
                                                     <label for="email">Email</label>
                                                 </div>
@@ -75,7 +75,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Teléfono" name="telefono"
+                                                    <input type="text" class="form-control @error('telefono') is-invalid @enderror" placeholder="Teléfono" name="telefono"
                                                         value="{{ old('telefono') }}">
                                                     <label for="telefono">Teléfono</label>
                                                 </div>

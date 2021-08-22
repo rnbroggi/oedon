@@ -49,7 +49,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Nombre" name="nombre"
+                                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" placeholder="Nombre" name="nombre"
                                                         value="{{ $veterinaria->nombre }}" required>
                                                     <label for="nombre">Nombre</label>
                                                 </div>

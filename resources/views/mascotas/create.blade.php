@@ -48,7 +48,7 @@
                                         <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Nombre" name="nombre"
+                                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" placeholder="Nombre" name="nombre"
                                                         value="{{ old('nombre') }}" required>
                                                     <label for="nombre">Nombre</label>
                                                 </div>
@@ -187,7 +187,7 @@
                                         <div class="col-md-6 col-12 mt-md-2" id="nombre_cliente">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Nombre" name="nombre_cliente"
+                                                    <input type="text" class="form-control @error('nombre_cliente') is-invalid @enderror" placeholder="Nombre" name="nombre_cliente"
                                                         value="{{ old('nombre_cliente') }}">
                                                     <label for="nombre_cliente">Nombre</label>
                                                 </div>
@@ -197,7 +197,7 @@
                                         <div class="col-md-6 col-12 mt-md-2" id="email_cliente">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="email" class="form-control" placeholder="Email" name="email_cliente"
+                                                    <input type="email" class="form-control @error('email_cliente') is-invalid @enderror" placeholder="Email" name="email_cliente"
                                                         value="{{ old('email_cliente') }}" data-validation-email-message="Dirección de email inválida">
                                                     <label for="email_cliente">Email</label>
                                                 </div>
@@ -207,7 +207,7 @@
                                         <div class="col-md-6 col-12 mt-md-2" id="telefono_cliente">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="text" class="form-control" placeholder="Teléfono" name="telefono_cliente"
+                                                    <input type="text" class="form-control @error('telefono_cliente') is-invalid @enderror" placeholder="Teléfono" name="telefono_cliente"
                                                         value="{{ old('telefono_cliente') }}">
                                                     <label for="telefono_cliente">Teléfono</label>
                                                 </div>
@@ -217,7 +217,7 @@
                                         <div class="col-md-6 col-12 mt-md-2" id="password">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="password" class="form-control" placeholder="Contraseña" name="password"
+                                                    <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" name="password"
                                                         value="{{ old('password') }}">
                                                     <label for="password">Contraseña</label>
                                                 </div>

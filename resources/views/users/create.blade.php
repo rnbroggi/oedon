@@ -48,7 +48,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <div class="form-label-group controls has-icon-left">
-                                                <input type="text" class="form-control" placeholder="Nombre" name="name"
+                                                <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Nombre" name="name"
                                                     value="{{ old('name') }}" required>
                                                 <div class="form-control-position">
                                                     <i class="feather icon-user"></i>
@@ -60,7 +60,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <div class="form-label-group controls has-icon-left">
-                                                <input type="email" class="form-control" placeholder="Email"
+                                                <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email"
                                                     name="email" value="{{ old('email') }}" data-validation-email-message="Dirección de email inválida" required>
                                                 <div class="form-control-position">
                                                     <i class="feather icon-mail"></i>
@@ -72,7 +72,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <div class="form-label-group controls has-icon-left">
-                                                <input type="text" class="form-control" placeholder="Teléfono"
+                                                <input type="text" class="form-control @error('telefono') is-invalid @enderror" placeholder="Teléfono"
                                                     name="telefono" value="{{ old('telefono') }}">
                                                 <div class="form-control-position">
                                                     <i class="feather icon-phone"></i>
@@ -84,7 +84,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <div class="form-label-group controls has-icon-left">
-                                                <input type="password" class="form-control" placeholder="Contraseña"
+                                                <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña"
                                                     name="password" value="" required>
                                                 <div class="form-control-position">
                                                     <i class="feather icon-lock"></i>
@@ -96,7 +96,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <div class="form-label-group controls has-icon-left">
-                                                <input type="password" class="form-control"
+                                                <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
                                                     placeholder="Confirmar Contraseña" name="password_confirmation"
                                                     value="" required>
                                                 <div class="form-control-position">
