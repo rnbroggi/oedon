@@ -168,7 +168,10 @@ class MascotaController extends Controller
      */
     public function destroy(Mascota $mascota)
     {
-        //
+        $mascota->delete();
+
+        return redirect()->route('mascotas.index')
+            ->with('success', "Mascota $mascota->nombre eliminada correctamente");
     }
 
     private function createUser($request, $mascota)

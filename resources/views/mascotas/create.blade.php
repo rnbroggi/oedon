@@ -252,27 +252,44 @@
     <script src="{{ asset(mix('js/scripts/forms/select/form-select2.js')) }}"></script>
 
     <script>
+        function setRazas(animal_id){
+            let razas = @json($razas);
+
+            $('#raza_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
+
+            if(animal_id != ''){
+                $('#raza_id').prop("disabled", false);
+                for (const raza of razas) {
+                    if(raza.animal_id == animal_id){
+                        $('#raza_id').append($('<option>', {
+                            value: raza.id,
+                            text: raza.nombre,
+                        }));
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+
         $(document).ready(function () {
+            let oldAnimal = "{{ old('animal_id') }}";
+            let oldRaza = "{{ old('raza_id') }}";
+
+            if(oldAnimal){
+                $('#animal_id').val(oldAnimal);
+                setRazas(oldAnimal);
+
+                if(oldRaza){
+                    $('#raza_id').val(oldRaza);
+                }
+            }
+
             $("#cliente").hide();
 
             $('#animal_id').change(function (e) { 
-                let animal_id = this.value;
-                let razas = @json($razas);
-
-                $('#raza_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
-
-                if(animal_id != ''){
-                    $('#raza_id').prop("disabled", false);
-                    for (const raza of razas) {
-                        if(raza.animal_id == animal_id){
-                            $('#raza_id').append($('<option>', {
-                                value: raza.id,
-                                text: raza.nombre,
-                            }));
-                        }
-                    }
-                }
-                
+                setRazas(this.value);
             });
 
             $('#owner_exists').change(function (e) { 

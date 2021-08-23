@@ -31,7 +31,7 @@
                 <img src="{{ asset('images/elements/decore-right.png')}}" class="img-right" alt="card-img-right">
                 <div class="avatar avatar-xl bg-primary shadow mt-0">
                     <div class="avatar-content">
-                        <i class="feather icon-award white font-large-1"></i>
+                        <i class="fa fa-paw white font-large-1"></i>
                     </div>
                 </div>
                 <div class="text-center">
