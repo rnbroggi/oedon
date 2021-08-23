@@ -16,7 +16,7 @@ class CreateVisitasTable extends Migration
         Schema::create('visitas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mascota_id')->nullable()->constrained('mascotas');
-            $table->date('fecha');
+            $table->datetime('fecha');
             $table->integer('peso')->nullable();
             $table->foreignId('user_veterinario_id')->nullable()->constrained('users');
             $table->text('observaciones')->nullable();

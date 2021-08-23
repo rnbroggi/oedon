@@ -9,6 +9,8 @@ use App\Raza;
 use App\Sexo;
 use App\User;
 use App\Veterinaria;
+use App\Visita;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -109,6 +111,7 @@ class MascotaController extends Controller
             ]);
 
             $mascota = $this->createUser($request, $mascota);
+            $this->registrarVisita($request, $mascota);
 
             // Agrego imagen
             if($request->hasFile('foto')){
@@ -203,5 +206,17 @@ class MascotaController extends Controller
         }
 
         return $mascota;
+    }
+
+    private function registrarVisita(Request $request, $mascota)
+    {
+        Visita::create([
+            'mascota_id'          => $mascota->id,
+            'fecha'               => Carbon::now(),
+            'peso'                => $mascota->peso,
+            'user_veterinario_id' => $request->veterinario_id,
+            'veterinaria_id'      => Auth::user()->veterinaria_id ?? (User::find($request->veterinario_id)->veterinara_id ?? null),
+            'observaciones'       => "Primer consulta \n\n" . $mascota->observaciones,
+        ]);
     }
 }
