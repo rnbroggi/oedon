@@ -158,7 +158,6 @@
                                             <fieldset class="form-label-group">
                                                 <textarea class="form-control" name="observaciones" rows="3"
                                                     placeholder="Observaciones">{{ old('observaciones') }}</textarea>
-                                                <label for="observaciones">Observaciones</label>
                                             </fieldset>
                                         </div>
 

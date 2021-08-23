@@ -148,7 +148,42 @@ class MascotaController extends Controller
      */
     public function edit(Mascota $mascota)
     {
-        //
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/mascotas", 'name' => "Mascotas"], ['name' => "Editar mascota"]
+        ];
+
+        $animales = Animal::select('id', 'nombre')->get();
+        $razas = Raza::select('id', 'nombre', 'animal_id')->get();
+
+        $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
+            $q->where('name', 'veterinario');
+        })
+            ->select('id', 'name', 'veterinaria_id')
+            ->get();
+
+        $clientes = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
+            $q->where('name', 'cliente');
+        })
+            ->select('id', 'name', 'veterinaria_id')
+            ->get();
+
+        $veterinarias = Veterinaria::select('id', 'nombre')->get();
+
+        $sexos = Sexo::select('id', 'nombre')->get();
+
+        if (Auth::user()->hasRole('superadmin')) {
+            foreach ($clientes as $cliente) {
+                $nombre_veterinaria = $cliente->veterinaria->nombre ?? null;
+                $cliente->name = "$cliente->name ($nombre_veterinaria)";
+            }
+
+            foreach ($veterinarios as $veterinario) {
+                $nombre_veterinaria = $veterinario->veterinaria->nombre ?? null;
+                $veterinario->name = "$veterinario->name ($nombre_veterinaria)";
+            }
+        }
+
+        return view('mascotas.edit', compact('breadcrumbs', 'animales', 'razas', 'veterinarios', 'clientes', 'veterinarias', 'sexos', 'mascota'));
     }
 
     /**
