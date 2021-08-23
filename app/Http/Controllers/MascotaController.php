@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Animal;
 use App\Http\Requests\StoreMascota;
+use App\Http\Requests\UpdateMascota;
 use App\Mascota;
 use App\Raza;
 use App\Sexo;
@@ -106,7 +107,6 @@ class MascotaController extends Controller
                 'peso'             => $request->peso,
                 'activo'           => $request->activo,
                 'sexo_id'          => $request->sexo_id,
-                'veterinario_id'   => $request->veterinario_id,
                 'observaciones'    => $request->observaciones,
             ]);
 
@@ -193,9 +193,27 @@ class MascotaController extends Controller
      * @param  \App\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mascota $mascota)
+    public function update(UpdateMascota $request, Mascota $mascota)
     {
-        //
+        $mascota->update([
+            'nombre'           => $request->nombre,
+            'raza_id'          => $request->raza_id,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'peso'             => $request->peso,
+            'activo'           => $request->activo,
+            'sexo_id'          => $request->sexo_id,
+            'observaciones'    => $request->observaciones,
+            'user_id'          => $request->cliente,
+        ]);
+
+        // Agrego imagen
+        if($request->hasFile('foto')){
+            $mascota->clearMediaCollection('foto');
+            $mascota->addMedia($request->foto)->toMediaCollection('foto');
+        }
+
+        return redirect()->route('mascotas.index')
+                ->with('success', "Mascota $mascota->nombre actualizada correctamente");
     }
 
     /**
