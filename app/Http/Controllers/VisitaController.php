@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mascota;
+use App\User;
 use App\Visita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VisitaController extends Controller
 {
@@ -28,7 +31,30 @@ class VisitaController extends Controller
      */
     public function create()
     {
-        //
+        $mascotas = Mascota::with(['cliente' => function ($q) {
+            $q->with('veterinaria:id,nombre');
+        }])
+            ->byVeterinaria()
+            ->select('id', 'nombre', 'user_id')
+            ->orderBy('nombre', 'ASC')
+            ->get();
+
+        $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
+            $q->where('name', 'veterinario');
+        })
+            ->orderBy('name')
+            ->select('id', 'name', 'veterinaria_id')
+            ->get();
+
+        if (Auth::user()->hasRole('superadmin')) {
+            foreach ($mascotas as $mascota) {
+                $nombre_veterinaria = $mascota->cliente->veterinaria->nombre ?? null;
+                if ($nombre_veterinaria)
+                    $mascota->nombre = "$mascota->nombre ($nombre_veterinaria)";
+            }
+        }
+
+        return view('visitas.create', compact('mascotas', 'veterinarios'));
     }
 
     /**

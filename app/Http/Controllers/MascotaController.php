@@ -72,23 +72,23 @@ class MascotaController extends Controller
             ->select('id', 'name', 'veterinaria_id')
             ->get();
 
-        $veterinarias = Veterinaria::select('id', 'nombre')->orderBy('nombre')->get();
-
         $sexos = Sexo::select('id', 'nombre')->get();
 
         if (Auth::user()->hasRole('superadmin')) {
             foreach ($clientes as $cliente) {
                 $nombre_veterinaria = $cliente->veterinaria->nombre ?? null;
-                $cliente->name = "$cliente->name ($nombre_veterinaria)";
+                if($nombre_veterinaria)
+                    $cliente->name = "$cliente->name ($nombre_veterinaria)";
             }
 
             foreach ($veterinarios as $veterinario) {
                 $nombre_veterinaria = $veterinario->veterinaria->nombre ?? null;
-                $veterinario->name = "$veterinario->name ($nombre_veterinaria)";
+                if($nombre_veterinaria)
+                    $veterinario->name = "$veterinario->name ($nombre_veterinaria)";
             }
         }
 
-        return view('mascotas.create', compact('breadcrumbs', 'animales', 'razas', 'veterinarios', 'clientes', 'veterinarias', 'sexos'));
+        return view('mascotas.create', compact('breadcrumbs', 'animales', 'razas', 'veterinarios', 'clientes', 'sexos'));
     }
 
     /**
@@ -171,23 +171,23 @@ class MascotaController extends Controller
             ->select('id', 'name', 'veterinaria_id')
             ->get();
 
-        $veterinarias = Veterinaria::select('id', 'nombre')->orderBy('nombre')->get();
-
         $sexos = Sexo::select('id', 'nombre')->get();
 
         if (Auth::user()->hasRole('superadmin')) {
             foreach ($clientes as $cliente) {
                 $nombre_veterinaria = $cliente->veterinaria->nombre ?? null;
-                $cliente->name = "$cliente->name ($nombre_veterinaria)";
+                if($nombre_veterinaria)
+                    $cliente->name = "$cliente->name ($nombre_veterinaria)";
             }
 
             foreach ($veterinarios as $veterinario) {
                 $nombre_veterinaria = $veterinario->veterinaria->nombre ?? null;
-                $veterinario->name = "$veterinario->name ($nombre_veterinaria)";
+                if($nombre_veterinaria)
+                    $veterinario->name = "$veterinario->name ($nombre_veterinaria)";
             }
         }
 
-        return view('mascotas.edit', compact('breadcrumbs', 'animales', 'razas', 'veterinarios', 'clientes', 'veterinarias', 'sexos', 'mascota'));
+        return view('mascotas.edit', compact('breadcrumbs', 'animales', 'razas', 'veterinarios', 'clientes', 'sexos', 'mascota'));
     }
 
     /**

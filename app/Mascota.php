@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+
 class Mascota extends Model implements Auditable, HasMedia
 {
     use SoftDeletes;
@@ -21,10 +23,10 @@ class Mascota extends Model implements Auditable, HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('profile')
-              ->width(350)
-              ->height(300)
-              ->sharpen(10)
-              ->performOnCollections('foto');
+            ->width(350)
+            ->height(300)
+            ->sharpen(10)
+            ->performOnCollections('foto');
     }
 
     public function getEdadAttribute()
@@ -60,5 +62,15 @@ class Mascota extends Model implements Auditable, HasMedia
     public function visitas()
     {
         return $this->hasMany(Visita::class, 'mascota_id', 'id')->with('veterinario:id,name')->orderBy('id', 'DESC');
+    }
+
+    public function scopeByVeterinaria($query)
+    {
+        $logged_user = Auth::user();
+        if ($logged_user->hasRole('superadmin')) return;
+
+        return $query->whereHas('cliente', function ($q) use ($logged_user) {
+            $q->where('veterinaria_id', $logged_user->veterinaria_id);
+        });
     }
 }

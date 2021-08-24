@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Mascotas')
+@section('title', 'Visitas')
 
 @section('page-style')
     {{-- Page Css files --}}
@@ -37,50 +37,33 @@
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Agregar mascota</h4>
+                        <h4 class="card-title">Registrar visita</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form novalidate class="form" action="{{ route('mascotas.store') }}" enctype="multipart/form-data" method="POST">
+                            <form novalidate class="form" action="{{ route('visitas.store') }}" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 <div class="form-body">
                                     <div class="row">
-                                        <div class="col-md-6 col-12 mt-md-2">
-                                            <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" placeholder="Nombre" name="nombre"
-                                                        value="{{ old('nombre') }}" required>
-                                                    <label for="nombre">Nombre</label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="animal_id">Animal</label>
-                                                <select class="select2 form-control" name="animal_id" id="animal_id">
+                                                <label for="mascota_id">Mascota</label>
+                                                <select class="select2 form-control" name="mascota_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
-                                                    @foreach ($animales as $animal)
-                                                        <option value="{{ $animal->id }}" @if (old('animal_id') != null)  @if ($animal->id==old('animal_id'))
+                                                    @foreach ($mascotas as $mascota)
+                                                        <option value="{{ $mascota->id }}" @if (old('mascota_id') != null)  @if ($mascota->id==old('mascota_id'))
                                                             selected @endif
-                                                    @endif>{{ ucfirst($animal->nombre) }}
+                                                    @endif>{{ ucfirst($mascota->nombre) }}
                                                     </option>
                                                     @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="raza_id">Raza</label>
-                                                <select class="select2 form-control" disabled name="raza_id" id="raza_id">
-                                                    <option value="" selected disabled hidden>Seleccionar</option>
                                                 </select>
                                             </div>
                                         </div> 
                                         <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-label-group">
-                                                <input type="date" class="form-control" placeholder="Fecha de Nacimiento"
-                                                    name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" />
-                                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                                <input type="datetime-local" class="form-control" placeholder="Fecha"
+                                                    name="fecha" value="{{ old('fecha') }}" />
+                                                <label for="fecha">Fecha</label>
                                             </div>
                                         </div>  
                                         <div class="col-md-6 col-12 mt-md-2">
@@ -90,51 +73,6 @@
                                                         value="{{ old('peso') }}" required>
                                                     <label for="peso">Peso actual</label>
                                                 </div>
-                                            </div>
-                                        </div>  
-                                        
-                                        <div class="col-md-6 col-12 mt-2">
-                                            <label>Estado:</label>
-                                            <div>
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="d-inline-block mr-2">
-                                                        <fieldset>
-                                                            <label>
-                                                                <input type="radio" value="1" name="activo"
-                                                                    checked>
-                                                                Activo
-                                                            </label>
-                                                        </fieldset>
-                                                    </li>
-                                                    <li class="d-inline-block mr-2">
-                                                        <fieldset>
-                                                            <label>
-                                                                <input type="radio" value="0" name="activo">
-                                                                Inactivo
-                                                            </label>
-                                                        </fieldset>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="sexo_id">Sexo</label>
-                                                <select class="select2 form-control" name="sexo_id">
-                                                    <option value="" selected disabled hidden>Seleccionar</option>
-                                                    @foreach ($sexos as $sexo)
-                                                        <option value="{{ $sexo->id }}" @if (old('sexo_id') != null)  @if ($sexo->id==old('sexo_id'))
-                                                            selected @endif
-                                                    @endif>{{ ucfirst($sexo->nombre) }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-6 col-12 mt-md-1">
-                                            <div class="form-group">
-                                                <label for="foto">Foto</label>
-                                                <input type="file" class="form-control-file" id="foto" name="foto">
                                             </div>
                                         </div>  
 
@@ -160,68 +98,6 @@
                                                     placeholder="Observaciones">{{ old('observaciones') }}</textarea>
                                             </fieldset>
                                         </div>
-
-                                        <h3 class="col-12">Datos del dueño</h3>
-
-                                        <div class="col-lg-2 col-md-6 col-12 mt-md-2">
-                                            <input type="checkbox" name="owner_exists" id="owner_exists"> Dueño ya registrado
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-12 mt-sm-1 mt-md-0" id="cliente">
-                                            <div class="form-group">
-                                                <label for="cliente">Dueño</label>
-                                                <select class="select2 form-control" name="cliente">
-                                                    <option value="" selected disabled hidden>Seleccionar</option>
-                                                    @foreach ($clientes as $cliente)
-                                                        <option value="{{ $cliente->id }}" @if (old('cliente') != null)  @if ($cliente->id==old('cliente'))
-                                                            selected @endif
-                                                    @endif>{{ ucfirst($cliente->name) }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12"></div>
-                                        
-                                        <div class="col-md-6 col-12 mt-md-2" id="nombre_cliente">
-                                            <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="text" class="form-control @error('nombre_cliente') is-invalid @enderror" placeholder="Nombre" name="nombre_cliente"
-                                                        value="{{ old('nombre_cliente') }}">
-                                                    <label for="nombre_cliente">Nombre</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12 mt-md-2" id="email_cliente">
-                                            <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="email" class="form-control @error('email_cliente') is-invalid @enderror" placeholder="Email" name="email_cliente"
-                                                        value="{{ old('email_cliente') }}" data-validation-email-message="Dirección de email inválida">
-                                                    <label for="email_cliente">Email</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12 mt-md-2" id="telefono_cliente">
-                                            <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="text" class="form-control @error('telefono_cliente') is-invalid @enderror" placeholder="Teléfono" name="telefono_cliente"
-                                                        value="{{ old('telefono_cliente') }}">
-                                                    <label for="telefono_cliente">Teléfono</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12 mt-md-2" id="password">
-                                            <div class="form-group">
-                                                <div class="form-label-group controls">
-                                                    <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" name="password"
-                                                        value="{{ old('password') }}">
-                                                    <label for="password">Contraseña</label>
-                                                </div>
-                                            </div>
-                                        </div>
                                                                          
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
@@ -237,7 +113,6 @@
             </div>
         </div>
     </section>
-    <!-- // Basic Floating Label Form section end -->
 @endsection
 
 @section('vendor-script')
@@ -249,67 +124,4 @@
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/forms/validation/form-validation.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/select/form-select2.js')) }}"></script>
-
-    <script>
-        function setRazas(animal_id){
-            let razas = @json($razas);
-
-            $('#raza_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
-
-            if(animal_id != ''){
-                $('#raza_id').prop("disabled", false);
-                for (const raza of razas) {
-                    if(raza.animal_id == animal_id){
-                        $('#raza_id').append($('<option>', {
-                            value: raza.id,
-                            text: raza.nombre,
-                        }));
-                    }
-                }
-            }
-        }
-    </script>
-
-    <script>
-
-        $(document).ready(function () {
-            let oldAnimal = "{{ old('animal_id') }}";
-            let oldRaza = "{{ old('raza_id') }}";
-
-            if(oldAnimal){
-                $('#animal_id').val(oldAnimal);
-                setRazas(oldAnimal);
-
-                if(oldRaza){
-                    $('#raza_id').val(oldRaza);
-                }
-            }
-
-            $("#cliente").hide();
-
-            $('#animal_id').change(function (e) { 
-                setRazas(this.value);
-            });
-
-            $('#owner_exists').change(function (e) { 
-                if(this.checked){
-                    $('#cliente').prop("disabled", false);
-                    $("#cliente").show();
-                    
-                    $('#nombre_cliente').hide();
-                    $('#email_cliente').hide();
-                    $('#telefono_cliente').hide();
-                    $('#password').hide();
-                }else{
-                    $('#cliente').prop("disabled", true);
-                    $("#cliente").hide();
-
-                    $('#nombre_cliente').show();
-                    $('#email_cliente').show();
-                    $('#telefono_cliente').show();
-                    $('#password').show();
-                }                
-            });
-        });
-    </script>
 @endsection
