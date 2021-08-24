@@ -3,9 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Visita extends Model
+class Visita extends Model implements Auditable, HasMedia
 {
+    use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
+    use HasMediaTrait;
+    
     protected $table = 'visitas';
     protected $guarded = ['id'];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fecha'];
