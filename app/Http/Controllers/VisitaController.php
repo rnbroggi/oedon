@@ -112,4 +112,17 @@ class VisitaController extends Controller
     {
         //
     }
+
+    public function getVeterinarios(Request $request, $mascota_id)
+    {
+        $mascota = Mascota::findOrFail($mascota_id);
+        $veterinaria_id = $mascota->cliente->veterinaria_id ?? null;
+
+        return User::whereHas('roles', function($q){
+            $q->whereIn('name', ['administrativo', 'veterinario']);
+        })
+        ->select('id', 'name', 'veterinaria_id')
+        ->where('veterinaria_id', $veterinaria_id)
+        ->get();
+    }
 }

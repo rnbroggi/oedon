@@ -48,7 +48,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="mascota_id">Mascota</label>
-                                                <select class="select2 form-control" name="mascota_id">
+                                                <select class="select2 form-control" name="mascota_id" id="mascota_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($mascotas as $mascota)
                                                         <option value="{{ $mascota->id }}" @if (old('mascota_id') != null)  @if ($mascota->id==old('mascota_id'))
@@ -79,7 +79,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="veterinario_id">Veterinario</label>
-                                                <select class="select2 form-control" name="veterinario_id">
+                                                <select class="select2 form-control" name="veterinario_id" id="veterinario_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($veterinarios as $veterinario)
                                                         <option value="{{ $veterinario->id }}" @if (old('veterinario_id') != null)  @if ($veterinario->id==old('veterinario_id'))
@@ -124,4 +124,47 @@
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/forms/validation/form-validation.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/select/form-select2.js')) }}"></script>
+
+    @hasrole('superadmin')
+    <script>
+        function setVeterinarios(veterinarios){
+            $('#veterinario_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
+
+            for (const veterinario of veterinarios) {
+                console.log(veterinario.id);
+                console.log(veterinario.name);
+                $('#veterinario_id').append($('<option>', {
+                    value: veterinario.id,
+                    text: veterinario.name,
+                }));
+            }
+
+            $('#veterinario_id').prop("disabled", false);
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#veterinario_id').prop('disabled', true);
+
+            $('#mascota_id').change(function (e) { 
+                let mascota_id = this.value;
+                const url = window.location.origin + '/get_veterinarios/' + mascota_id;
+
+                fetch(url)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((veterinarios) => {
+                        setVeterinarios(veterinarios);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        const all_vets = @json($veterinarios);
+                        setVeterinarios(all_vets);
+                    });
+            });
+        });
+    </script>
+    @endhasrole
 @endsection

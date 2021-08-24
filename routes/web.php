@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Visitas
     Route::resource('visitas', 'VisitaController')->middleware('can:crud visitas');
+    Route::get('get_veterinarios/{mascota_id}', 'VisitaController@getVeterinarios')->name('visitas.get_veterinarios');
 });
 
 // locale Route
