@@ -35,7 +35,7 @@
                         <div class="row">
 
                             <div class="col-md-4 col-12 text-center">
-                                <img src="@if($mascota->getFirstMedia('foto')){{$mascota->getFirstMedia('foto')->getFullUrl()}} @else{{ asset('images/pages/dog-cat.png') }}@endif"
+                                <img src="@if($mascota->getFirstMedia('foto')){{ $mascota->getFirstMedia('foto')->getFullUrl('profile') ?? asset('images/pages/dog-cat.png') }} @else{{ asset('images/pages/dog-cat.png') }}@endif"
                                     width="350px" 
                                     height="300px" 
                                     alt="Foto de perfil" 

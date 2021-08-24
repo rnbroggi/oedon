@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-
+use Spatie\MediaLibrary\Models\Media;
 class Mascota extends Model implements Auditable, HasMedia
 {
     use SoftDeletes;
@@ -17,6 +17,15 @@ class Mascota extends Model implements Auditable, HasMedia
     protected $table = 'mascotas';
     protected $guarded = ['id'];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fecha_nacimiento'];
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('profile')
+              ->width(350)
+              ->height(300)
+              ->sharpen(10)
+              ->performOnCollections('foto');
+    }
 
     public function getEdadAttribute()
     {
