@@ -254,7 +254,7 @@ class MascotaController extends Controller
                 'email'          => $request->email_cliente,
                 'telefono'       => $request->telefono_cliente,
                 'password'       => bcrypt($request->password),
-                'veterinaria_id' => Auth::user()->veterinaria_id ?? (User::find($request->veterinario_id)->veterinara_id ?? null),
+                'veterinaria_id' => Auth::user()->veterinaria_id ?? (User::find($request->veterinario_id)->veterinaria_id ?? null),
             ]);
 
             $user->assignRole('cliente');
@@ -272,7 +272,7 @@ class MascotaController extends Controller
             'fecha'               => Carbon::now(),
             'peso'                => $mascota->peso,
             'user_veterinario_id' => $request->veterinario_id,
-            'veterinaria_id'      => Auth::user()->veterinaria_id ?? (User::find($request->veterinario_id)->veterinara_id ?? null),
+            'veterinaria_id'      => Auth::user()->veterinaria_id ?? (User::find($request->veterinario_id)->veterinaria_id ?? null),
             'observaciones'       => "Primer consulta \n\n" . $mascota->observaciones,
         ]);
     }

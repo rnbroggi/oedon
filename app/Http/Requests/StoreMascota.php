@@ -31,7 +31,7 @@ class StoreMascota extends FormRequest
             'peso'               => 'nullable|integer',
             'activo'             => 'boolean',
             'sexo_id'            => 'integer|nullable|exists:sexos,id',
-            'veterinario_id'     => 'integer|exists:users,id',
+            'veterinario_id'     => 'required|integer|exists:users,id',
             'foto'               => 'nullable|image',
             'observaciones'      => 'nullable|string',
         ];
