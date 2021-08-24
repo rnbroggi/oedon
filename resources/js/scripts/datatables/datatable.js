@@ -27,7 +27,8 @@ $(document).ready(function() {
                 "previous":   "Anterior"
             },
             "search": "Buscar: ",
-        }
+        },
+        "order": [],
     });
 
     /****************************************
