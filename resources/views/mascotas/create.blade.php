@@ -258,13 +258,12 @@
 
             if(animal_id != ''){
                 $('#raza_id').prop("disabled", false);
+                razas = razas.filter(raza => {return raza.animal_id == animal_id});
                 for (const raza of razas) {
-                    if(raza.animal_id == animal_id){
-                        $('#raza_id').append($('<option>', {
-                            value: raza.id,
-                            text: raza.nombre,
-                        }));
-                    }
+                    $('#raza_id').append($('<option>', {
+                        value: raza.id,
+                        text: raza.nombre,
+                    }));
                 }
             }
         }

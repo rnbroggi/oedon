@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             StatusSeeder::class,
+            RazaSeeder::class,
+            SexoSeeder::class,
+            AnimalSeeder::class,
         ]);
     }
 }

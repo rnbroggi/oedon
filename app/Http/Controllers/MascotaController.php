@@ -55,22 +55,24 @@ class MascotaController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "/mascotas", 'name' => "Mascotas"], ['name' => "Crear mascota"]
         ];
 
-        $animales = Animal::select('id', 'nombre')->get();
-        $razas = Raza::select('id', 'nombre', 'animal_id')->get();
+        $animales = Animal::select('id', 'nombre')->orderBy('nombre')->get();
+        $razas = Raza::select('id', 'nombre', 'animal_id')->orderBy('nombre')->get();
 
         $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
             $q->where('name', 'veterinario');
         })
+            ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
 
         $clientes = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
             $q->where('name', 'cliente');
         })
+            ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
 
-        $veterinarias = Veterinaria::select('id', 'nombre')->get();
+        $veterinarias = Veterinaria::select('id', 'nombre')->orderBy('nombre')->get();
 
         $sexos = Sexo::select('id', 'nombre')->get();
 
@@ -114,7 +116,7 @@ class MascotaController extends Controller
             $this->registrarVisita($request, $mascota);
 
             // Agrego imagen
-            if($request->hasFile('foto')){
+            if ($request->hasFile('foto')) {
                 $mascota->addMedia($request->foto)->toMediaCollection('foto');
             }
 
@@ -122,7 +124,6 @@ class MascotaController extends Controller
 
             return redirect()->route('mascotas.index')
                 ->with('success', "Mascota $mascota->nombre agregada correctamente");
-
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -138,7 +139,7 @@ class MascotaController extends Controller
     public function show(Mascota $mascota)
     {
         $visitas = $mascota->visitas;
-        return view('mascotas.show', compact('mascota' , 'visitas'));
+        return view('mascotas.show', compact('mascota', 'visitas'));
     }
 
     /**
@@ -153,22 +154,24 @@ class MascotaController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "/mascotas", 'name' => "Mascotas"], ['name' => "Editar mascota"]
         ];
 
-        $animales = Animal::select('id', 'nombre')->get();
-        $razas = Raza::select('id', 'nombre', 'animal_id')->get();
+        $animales = Animal::select('id', 'nombre')->orderBy('nombre')->get();
+        $razas = Raza::select('id', 'nombre', 'animal_id')->orderBy('nombre')->get();
 
         $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
             $q->where('name', 'veterinario');
         })
+            ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
 
         $clientes = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
             $q->where('name', 'cliente');
         })
+            ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
 
-        $veterinarias = Veterinaria::select('id', 'nombre')->get();
+        $veterinarias = Veterinaria::select('id', 'nombre')->orderBy('nombre')->get();
 
         $sexos = Sexo::select('id', 'nombre')->get();
 
@@ -208,13 +211,13 @@ class MascotaController extends Controller
         ]);
 
         // Agrego imagen
-        if($request->hasFile('foto')){
+        if ($request->hasFile('foto')) {
             $mascota->clearMediaCollection('foto');
             $mascota->addMedia($request->foto)->toMediaCollection('foto');
         }
 
         return redirect()->route('mascotas.index')
-                ->with('success', "Mascota $mascota->nombre actualizada correctamente");
+            ->with('success', "Mascota $mascota->nombre actualizada correctamente");
     }
 
     /**
