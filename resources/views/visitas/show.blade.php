@@ -164,7 +164,7 @@
                             <tr>
                                 <td>{{ $visita->id }}</td>
                                 <td>{{ $visita->fecha->format('d/m/Y h:i:s') }}</td>
-                                <td>{{ $visita->peso }}</td>
+                                <td>{{ $visita->peso }} kg</td>
                                 <td>{{ $visita->veterinario->name ?? null }}</td>
                                 <td>
                                     <a href="{{ route('visitas.show', $visita->id) }}">

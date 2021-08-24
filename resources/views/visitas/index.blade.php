@@ -59,7 +59,7 @@
                                             <tr>
                                                 <td>{{ $visita->id }}</td>
                                                 <td>{{ $visita->fecha ? $visita->fecha->format('d/m/Y h:i:s') : null }}</td>
-                                                <td>{{ $visita->peso }}</td>
+                                                <td>{{ $visita->peso }} kg</td>
                                                 <td>{{ $visita->veterinario->name ?? null }}</td>
                                                 <td>{{ $visita->mascota->nombre ?? null }}</td>
                                                 @hasrole('superadmin')
