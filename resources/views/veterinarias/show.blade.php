@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Detalle de la Factura')
+@section('title', 'Detalle de la Veterinaria')
 
 @section('vendor-style')
 {{-- Page Css files --}}

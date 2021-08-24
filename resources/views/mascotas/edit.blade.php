@@ -79,7 +79,7 @@
                                         <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-label-group">
                                                 <input type="date" class="form-control" placeholder="Fecha de Nacimiento"
-                                                    name="fecha_nacimiento" value="{{ $mascota->fecha_nacimiento }}" />
+                                                    name="fecha_nacimiento" value="{{ $mascota->fecha_nacimiento ? $mascota->fecha_nacimiento->format('Y-m-d') : null }}">
                                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                             </div>
                                         </div>  

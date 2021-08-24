@@ -8,6 +8,7 @@ class Visita extends Model
 {
     protected $table = 'visitas';
     protected $guarded = ['id'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fecha'];
 
     public function mascota()
     {

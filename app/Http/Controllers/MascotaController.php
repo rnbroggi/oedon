@@ -137,7 +137,8 @@ class MascotaController extends Controller
      */
     public function show(Mascota $mascota)
     {
-        //
+        $visitas = $mascota->visitas;
+        return view('mascotas.show', compact('mascota' , 'visitas'));
     }
 
     /**
