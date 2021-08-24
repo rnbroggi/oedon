@@ -31,6 +31,12 @@
       "permission": "crud mascotas"
     },
     {
+      "url": "/visitas",
+      "name": "Visitas",
+      "icon": "fa fa-calendar",
+      "permission": "crud visitas"
+    },
+    {
       "url": "",
       "navheader": "Configuración",
       "permission": "audit-logs"

@@ -14,7 +14,11 @@ class VisitaController extends Controller
      */
     public function index()
     {
-        //
+        $visitas = Visita::with('veterinaria:id,nombre', 'veterinario:id,name')->select('id', 'mascota_id', 'fecha', 'peso', 'user_veterinario_id', 'veterinaria_id')
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('visitas.index', compact('visitas'));
     }
 
     /**
