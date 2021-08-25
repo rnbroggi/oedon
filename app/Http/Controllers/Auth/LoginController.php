@@ -42,15 +42,28 @@ class LoginController extends Controller
     }
 
     // Login
-    public function showLoginForm(){
-      $pageConfigs = [
-          'bodyClass' => "bg-full-screen-image",
-          'blankPage' => true
-      ];
+    public function showLoginForm()
+    {
+        $pageConfigs = [
+            'bodyClass' => "bg-full-screen-image",
+            'blankPage' => true
+        ];
 
-      return view('/auth/login', [
-          'pageConfigs' => $pageConfigs
-      ]);
+        return view('/auth/login', [
+            'pageConfigs' => $pageConfigs
+        ]);
+    }
+
+    /**
+     * Custom credentials to validate the status of user.
+     */
+    public function credentials(Request $request)
+    {
+        return [
+            'email'     => $request->email,
+            'password'  => $request->password,
+            'active'    => '1'
+        ];
     }
 
     /**
