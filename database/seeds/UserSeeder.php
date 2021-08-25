@@ -37,6 +37,7 @@ class UserSeeder extends Seeder
             'name' => 'John Doe',
             'email' => 'administrativo@oedon.com',
             'password' => Hash::make('/bpPnV2YbhS^&b2p'),
+            'veterinaria_id' => 1,
         ]);
 
         $usuario = User::findOrFail(2);
@@ -48,6 +49,7 @@ class UserSeeder extends Seeder
             'name' => 'Doctor Vet',
             'email' => 'veterinario@oedon.com',
             'password' => Hash::make('=Chux#eX7"\&FqG,'),
+            'veterinaria_id' => 1,
         ]);
 
         $usuario = User::findOrFail(3);
@@ -59,6 +61,7 @@ class UserSeeder extends Seeder
             'name' => 'Juan Perez',
             'email' => 'cliente@oedon.com',
             'password' => Hash::make('ufcx?*k9d&D=;~m>'),
+            'veterinaria_id' => 1,
         ]);
 
         $usuario = User::findOrFail(4);
