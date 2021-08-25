@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Detalle de la Visita')
+@section('title', 'Visitas')
 
 @section('vendor-style')
     {{-- Page Css files --}}

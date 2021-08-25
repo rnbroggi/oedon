@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Mascotas')
+@section('title', 'Visitas')
 
 @section('page-style')
     {{-- Page Css files --}}

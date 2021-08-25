@@ -108,7 +108,30 @@ class VisitaController extends Controller
      */
     public function edit(Visita $visita)
     {
-        //
+        $mascotas = Mascota::with(['cliente' => function ($q) {
+            $q->with('veterinaria:id,nombre');
+        }])
+            ->byVeterinaria()
+            ->select('id', 'nombre', 'user_id')
+            ->orderBy('nombre', 'ASC')
+            ->get();
+
+        $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
+            $q->where('name', 'veterinario');
+        })
+            ->orderBy('name')
+            ->select('id', 'name', 'veterinaria_id')
+            ->get();
+
+        if (Auth::user()->hasRole('superadmin')) {
+            foreach ($mascotas as $mascota) {
+                $nombre_veterinaria = $mascota->cliente->veterinaria->nombre ?? null;
+                if ($nombre_veterinaria)
+                    $mascota->nombre = "$mascota->nombre ($nombre_veterinaria)";
+            }
+        }
+
+        return view('visitas.create', compact('mascotas', 'veterinarios', 'visita'));
     }
 
     /**
