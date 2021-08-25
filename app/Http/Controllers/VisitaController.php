@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVisita;
 use App\Mascota;
 use App\User;
 use App\Visita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VisitaController extends Controller
 {
@@ -63,9 +65,24 @@ class VisitaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreVisita $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $visita = Visita::create($request->validated());
+            $visita->veterinaria_id = Auth::user()->veterinaria_id ?? (User::find($request->user_veterinario_id)->veterinaria_id ?? null);
+            $visita->save();
+
+            $visita->mascota()->update(['peso' => $visita->peso]);
+
+            DB::commit();
+
+            return redirect()->route('visitas.index')
+                ->with('success', "Visita registrada correctamente");
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -118,11 +135,11 @@ class VisitaController extends Controller
         $mascota = Mascota::findOrFail($mascota_id);
         $veterinaria_id = $mascota->cliente->veterinaria_id ?? null;
 
-        return User::whereHas('roles', function($q){
+        return User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['administrativo', 'veterinario']);
         })
-        ->select('id', 'name', 'veterinaria_id')
-        ->where('veterinaria_id', $veterinaria_id)
-        ->get();
+            ->select('id', 'name', 'veterinaria_id')
+            ->where('veterinaria_id', $veterinaria_id)
+            ->get();
     }
 }

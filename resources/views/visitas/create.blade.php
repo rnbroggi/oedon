@@ -70,7 +70,7 @@
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
                                                     <input type="number" class="form-control" placeholder="Peso actual" name="peso"
-                                                        value="{{ old('peso') }}" required>
+                                                        value="{{ old('peso') }}">
                                                     <label for="peso">Peso actual</label>
                                                 </div>
                                             </div>
@@ -78,11 +78,11 @@
 
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="veterinario_id">Veterinario</label>
-                                                <select class="select2 form-control" name="veterinario_id" id="veterinario_id">
+                                                <label for="user_veterinario_id">Veterinario</label>
+                                                <select class="select2 form-control" name="user_veterinario_id" id="user_veterinario_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($veterinarios as $veterinario)
-                                                        <option value="{{ $veterinario->id }}" @if (old('veterinario_id') != null)  @if ($veterinario->id==old('veterinario_id'))
+                                                        <option value="{{ $veterinario->id }}" @if (old('user_veterinario_id') != null)  @if ($veterinario->id==old('user_veterinario_id'))
                                                             selected @endif
                                                     @endif>{{ ucfirst($veterinario->name) }}
                                                     </option>
@@ -128,41 +128,48 @@
     @hasrole('superadmin')
     <script>
         function setVeterinarios(veterinarios){
-            $('#veterinario_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
+            $('#user_veterinario_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
 
             for (const veterinario of veterinarios) {
-                console.log(veterinario.id);
-                console.log(veterinario.name);
-                $('#veterinario_id').append($('<option>', {
+                $('#user_veterinario_id').append($('<option>', {
                     value: veterinario.id,
                     text: veterinario.name,
                 }));
             }
 
-            $('#veterinario_id').prop("disabled", false);
+            $('#user_veterinario_id').prop("disabled", false);
+        }
+
+        function fetchVeterinarios(mascota_id){
+            const url = window.location.origin + '/get_veterinarios/' + mascota_id;
+
+            fetch(url)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((veterinarios) => {
+                    setVeterinarios(veterinarios);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    const all_vets = @json($veterinarios);
+                    setVeterinarios(all_vets);
+                });
         }
     </script>
 
     <script>
         $(document).ready(function () {
-            $('#veterinario_id').prop('disabled', true);
+            $('#user_veterinario_id').prop('disabled', true);
+
+            let oldMascota = "{{ old('mascota_id') }}";
+
+            if(oldMascota){
+                fetchVeterinarios(oldMascota);
+            }
 
             $('#mascota_id').change(function (e) { 
-                let mascota_id = this.value;
-                const url = window.location.origin + '/get_veterinarios/' + mascota_id;
-
-                fetch(url)
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .then((veterinarios) => {
-                        setVeterinarios(veterinarios);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        const all_vets = @json($veterinarios);
-                        setVeterinarios(all_vets);
-                    });
+                fetchVeterinarios(this.value);
             });
         });
     </script>
