@@ -143,9 +143,13 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Visita $visita)
+    public function update(StoreVisita $request, Visita $visita)
     {
-        //
+        $visita->update($request->validated());
+        $this->uploadFiles($visita, $request);
+
+        return redirect()->route('visitas.index')
+                ->with('success', "Visita actualizada correctamente");
     }
 
     /**
