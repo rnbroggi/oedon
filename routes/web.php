@@ -33,7 +33,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/impersonate/{user_id}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate');
     });
     Route::get('/impersonate_leave', 'UserController@impersonateLeave')->name('impersonate_leave');
-    
+
     // Auditoria
     Route::get('audits', 'AuditController@index')->name('audits.index')->middleware('can:audits-logs');
 
@@ -52,6 +52,13 @@ Route::group(['middleware' => ['auth']], function () {
     // Visitas
     Route::resource('visitas', 'VisitaController')->middleware('can:crud visitas');
     Route::get('get_veterinarios/{mascota_id}', 'VisitaController@getVeterinarios')->name('visitas.get_veterinarios');
+
+    // Archivos visitas
+    Route::group(['prefix' => 'visitas', 'middleware' => ['can:download visitas files']], function () {
+        Route::get('single_file_download/{file}', 'VisitaController@singleFileDownload')->name('visitas.singleFileDownload');
+        Route::get('delete_single_file/{file}', 'VisitaController@deleteSingleFile')->name('visitas.deleteSingleFile')->middleware('can:crud visitas');
+        Route::get('multiple_file_download/{visita}', 'VisitaController@multipleFileDownload')->name('visitas.multipleFileDownload');
+    });
 });
 
 // locale Route

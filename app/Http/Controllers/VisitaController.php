@@ -9,7 +9,8 @@ use App\Visita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaStream;
 class VisitaController extends Controller
 {
     /**
@@ -96,7 +97,7 @@ class VisitaController extends Controller
      */
     public function show(Visita $visita)
     {
-        //
+        return view('visitas.show', compact('visita'));
     }
 
     /**
@@ -156,5 +157,29 @@ class VisitaController extends Controller
                 $visita->addMedia($adjunto)->toMediaCollection('archivo');
             }
         }
+    }
+
+    public function multipleFileDownload(Visita $visita)
+    {
+        $downloads = $visita->getMedia('archivo');
+
+        $date = $visita->fecha->toDateString();
+        $pet = $visita->mascota->nombre ?? '';
+
+        return MediaStream::create("$pet-archivos-$date.zip")->addMedia($downloads);
+    }
+
+    public function singleFileDownload(Media $file)
+    {
+        return $file;
+    }
+    
+    public function deleteSingleFile(Media $file)
+    {
+        $visita_id = $file->model_id;
+        $file->delete();
+
+        return redirect()->route('visitas.show', $visita_id)
+                ->with('success', "Archivo eliminado correctamente");
     }
 }
