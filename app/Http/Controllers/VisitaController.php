@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\MediaStream;
+
 class VisitaController extends Controller
 {
     /**
@@ -112,9 +113,7 @@ class VisitaController extends Controller
             $q->with('veterinaria:id,nombre');
         }])
             ->byVeterinaria()
-            ->select('id', 'nombre', 'user_id')
-            ->orderBy('nombre', 'ASC')
-            ->get();
+            ->select('id', 'nombre', 'user_id');
 
         $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
             $q->where('name', 'veterinario');
@@ -124,14 +123,17 @@ class VisitaController extends Controller
             ->get();
 
         if (Auth::user()->hasRole('superadmin')) {
-            foreach ($mascotas as $mascota) {
-                $nombre_veterinaria = $mascota->cliente->veterinaria->nombre ?? null;
-                if ($nombre_veterinaria)
-                    $mascota->nombre = "$mascota->nombre ($nombre_veterinaria)";
+            if ($visita->veterinaria_id) {
+                $mascotas = $mascotas->whereHas('cliente', function ($q) use ($visita) {
+                    $q->where('veterinaria_id', $visita->veterinaria_id);
+                });
+                $veterinarios = $veterinarios->where('veterinaria_id', $visita->veterinaria_id);
             }
         }
 
-        return view('visitas.create', compact('mascotas', 'veterinarios', 'visita'));
+        $mascotas = $mascotas->orderBy('nombre', 'ASC')->get();
+
+        return view('visitas.edit', compact('mascotas', 'veterinarios', 'visita'));
     }
 
     /**
@@ -175,8 +177,8 @@ class VisitaController extends Controller
 
     private function uploadFiles(Visita $visita, $request)
     {
-        if($request->hasFile('adjuntos')){
-            foreach($request->adjuntos as $adjunto){
+        if ($request->hasFile('adjuntos')) {
+            foreach ($request->adjuntos as $adjunto) {
                 $visita->addMedia($adjunto)->toMediaCollection('archivo');
             }
         }
@@ -198,17 +200,21 @@ class VisitaController extends Controller
         $visita = Visita::findOrFail($file->model_id);
         $this->checkUser($visita);
         return $file;
-    }    
-    
-    public function deleteSingleFile(Media $file)
+    }
+
+    public function deleteSingleFile(Request $request, Media $file)
     {
         $visita_id = $file->model_id;
         $visita = Visita::findOrFail($visita_id);
         $this->checkUser($visita);
         $file->delete();
 
-        return redirect()->route('visitas.show', $visita_id)
+        if ($request->view == 'edit') {
+            return redirect()->route('visitas.edit', $visita_id)
                 ->with('success', "Archivo eliminado correctamente");
+        }
+        return redirect()->route('visitas.show', $visita_id)
+            ->with('success', "Archivo eliminado correctamente");
     }
 
     private function checkUser($visita)
@@ -216,7 +222,7 @@ class VisitaController extends Controller
         $logged_user = Auth::user();
         if ($logged_user->hasRole('superadmin')) return;
 
-        if($visita->veterinaria_id != $logged_user->veterinaria_id)
+        if ($visita->veterinaria_id != $logged_user->veterinaria_id)
             abort(404);
     }
 }
