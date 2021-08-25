@@ -28,7 +28,7 @@ class User extends Authenticatable implements Auditable, HasMedia
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'telefono', 'password', 'veterinaria_id'
+        'name', 'email', 'telefono', 'password', 'veterinaria_id', 'active'
     ];
 
     /**
@@ -64,10 +64,16 @@ class User extends Authenticatable implements Auditable, HasMedia
         return $this->belongsTo(Veterinaria::class, 'veterinaria_id');
     }
 
+    public function changeStatus()
+    {
+        $this->active = !$this->active;
+        $this->save();
+    }
+
     public function scopeByVeterinaria($query)
     {
         $logged_user = Auth::user();
-        if($logged_user->hasRole('superadmin')) return;
+        if ($logged_user->hasRole('superadmin')) return;
 
         return $query->where('veterinaria_id', $logged_user->veterinaria_id);
     }

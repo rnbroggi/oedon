@@ -153,6 +153,11 @@
                                             </div>
                                         </div>
                                     @endif
+
+                                    <div class="col-lg-2 col-md-6 col-12 mb-md-2">
+                                        <input type="checkbox" name="active" id="active" checked> Activo
+                                    </div>
+                                    
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
                                         <button type="reset"

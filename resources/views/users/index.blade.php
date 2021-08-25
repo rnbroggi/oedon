@@ -48,6 +48,7 @@
                                             <th>Email</th>
                                             <th>Roles</th>
                                             <th>Veterinaria</th>
+                                            <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -59,13 +60,18 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->roles->implode('name', ', ') }} </td>
                                                 <td>{{ $user->veterinaria->nombre ?? null }}</td>
+                                                <td>{{ $user->active ? 'Activo' : 'Inactivo' }}</td>
                                                 <td>
                                                     <a href="{{ route('users.edit', $user->id) }}">
                                                         <i class="feather icon-edit"></i>
                                                     </a>
                                                     <span class="delete-button" data-id="{{ $user->id }}"><i
                                                         class="feather icon-trash mr-1"
-                                                        style="color:rgb(177, 9, 9); cursor: pointer;"></i></span>
+                                                        style="color:rgb(177, 9, 9); cursor: pointer;"></i>
+                                                    </span>
+                                                    <a href="{{ route('user.change_status', $user) }}" class="btn btn-{{ !$user->active ? 'success' : 'danger' }} btn-sm">
+                                                        {{ !$user->active ? 'Activar' : 'Desactivar' }}
+                                                    </a>
                                                     @canImpersonate($guard = null)
                                                         @canBeImpersonated($user, $guard = null)
                                                             <a href="{{ route('impersonate', $user->id) }}" class="btn btn-info btn-sm">

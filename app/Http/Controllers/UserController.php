@@ -25,7 +25,11 @@ class UserController extends Controller
             ['link' => "/", 'name' => "Home"], ['name' => "Usuarios"]
         ];
 
-        $users = User::with('roles', 'veterinaria:id,nombre')->select('id', 'name', 'email', 'veterinaria_id')->get();
+        $users = User::with('roles', 'veterinaria:id,nombre')
+            ->select('id', 'name', 'email', 'veterinaria_id', 'active')
+            ->orderBy('active', 'DESC')
+            ->get();
+
         return view('users.index', compact('users', 'breadcrumbs'));
     }
 
@@ -62,6 +66,7 @@ class UserController extends Controller
                 'email'          => $request->email,
                 'telefono'       => $request->telefono,
                 'veterinaria_id' => $request->veterinaria_id,
+                'active'         => $request->active == 'on',
                 'password'       => bcrypt($request->password),
             ]);
 
@@ -129,6 +134,7 @@ class UserController extends Controller
                 'email'          => $request->email,
                 'telefono'       => $request->telefono,
                 'veterinaria_id' => $request->veterinaria_id,
+                'active'         => $request->active == 'on',
                 'password'       => $request->password ? bcrypt($request->password) : $user->password,
             ]);
 
@@ -173,5 +179,16 @@ class UserController extends Controller
     {
         Auth::user()->leaveImpersonation();
         return redirect()->route('home');
+    }
+
+    public function changeStatus(User $user)
+    {
+        // dd($user);
+        $user->changeStatus();
+
+        $msg = $user->active ? 'activado' : 'desactivado';
+
+        return redirect()->route('users.index')
+            ->with('success', "Usuario $msg correctamente");
     }
 }

@@ -31,6 +31,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('roles', 'RoleController')->middleware('can:crud roles');
         Route::resource('permissions', 'PermissionController')->middleware('can:crud permisos');
         Route::get('/impersonate/{user_id}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate');
+        Route::get('/change_user_status/{user}', 'UserController@changeStatus')->name('user.change_status');
+        
     });
     Route::get('/impersonate_leave', 'UserController@impersonateLeave')->name('impersonate_leave');
 
@@ -50,11 +52,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('mascotas', 'MascotaController')->middleware('can:crud mascotas');
 
     // Visitas
-    Route::resource('visitas', 'VisitaController')->middleware('can:crud visitas');
+    Route::resource('visitas', 'VisitaController')
+        ->middleware('can:crud visitas', ['except' => ['index', 'show']])
+        ->middleware('can:view visitas');
     Route::get('get_veterinarios/{mascota_id}', 'VisitaController@getVeterinarios')->name('visitas.get_veterinarios');
 
     // Archivos visitas
-    Route::group(['prefix' => 'visitas', 'middleware' => ['can:download visitas files']], function () {
+    Route::group(['prefix' => 'visitas', 'middleware' => ['can:view visitas']], function () {
         Route::get('single_file_download/{file}', 'VisitaController@singleFileDownload')->name('visitas.singleFileDownload');
         Route::get('delete_single_file/{file}', 'VisitaController@deleteSingleFile')->name('visitas.deleteSingleFile')->middleware('can:crud visitas');
         Route::get('multiple_file_download/{visita}', 'VisitaController@multipleFileDownload')->name('visitas.multipleFileDownload');

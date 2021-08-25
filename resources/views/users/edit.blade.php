@@ -134,20 +134,25 @@
                                         </div>
 
                                         @if(count($veterinarias) > 0)
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="roles">Veterinaria</label>
-                                                <select class="select2 form-control" name="veterinaria_id">
-                                                    <option value="" selected>Ninguna</option>
-                                                    @foreach ($veterinarias as $veterinaria)
-                                                        <option value="{{ $veterinaria->id }}" @if($veterinaria->id == $user->veterinaria_id) selected @endif>
-                                                            {{ ucfirst($veterinaria->nombre) }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="roles">Veterinaria</label>
+                                                    <select class="select2 form-control" name="veterinaria_id">
+                                                        <option value="" selected>Ninguna</option>
+                                                        @foreach ($veterinarias as $veterinaria)
+                                                            <option value="{{ $veterinaria->id }}" @if($veterinaria->id == $user->veterinaria_id) selected @endif>
+                                                                {{ ucfirst($veterinaria->nombre) }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
+                                        @endif
+
+                                        <div class="col-lg-2 col-md-6 col-12 mb-md-2">
+                                            <input type="checkbox" name="active" id="active" @if($user->active) checked @endif> Activo
                                         </div>
-                                    @endif
+
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
                                             <button type="reset"
