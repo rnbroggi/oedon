@@ -40,7 +40,27 @@
                                     height="300px" 
                                     alt="Foto de perfil" 
                                     style="border: 2px solid black;">
-                            </div>
+
+
+                                    @hasrole('superadmin')
+                                    <div class="row mt-1">
+                                        <div class="col-12">
+                                            <a href="{{ route('visitas.create', ['mascota_id' => $mascota->id]) }}">
+                                                <button class="btn btn-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
+                                                    Registrar visita
+                                                </button>
+                                            </a>
+                                        </div>
+                                        <div class="col-12 mt-1">
+                                            <a href="{{ route('mascotas.edit', $mascota->id) }}">
+                                                <button class="btn btn-outline-primary"><i class='feather icon-edit' style="margin-left:-9px"></i>
+                                                    Editar
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @endhasrole
+                                </div>
 
                             <div class="col-md-8 col-12 mt-3">
                                 <div class="row">

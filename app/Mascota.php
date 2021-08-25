@@ -74,13 +74,18 @@ class Mascota extends Model implements Auditable, HasMedia
         return $this->hasMany(Visita::class, 'mascota_id', 'id')->with('veterinario:id,name')->orderBy('id', 'DESC');
     }
 
-    public function scopeByVeterinaria($query)
+    public function scopeByVeterinaria($query, $mascota_id)
     {
+        if($mascota_id)
+            $query = $query->where('id', $mascota_id);
+
         $logged_user = Auth::user();
         if ($logged_user->hasRole('superadmin')) return;
 
-        return $query->whereHas('cliente', function ($q) use ($logged_user) {
+        $query = $query->whereHas('cliente', function ($q) use ($logged_user) {
             $q->where('veterinaria_id', $logged_user->veterinaria_id);
         });
+
+        return $query;
     }
 }

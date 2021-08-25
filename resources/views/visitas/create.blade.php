@@ -65,10 +65,14 @@
                                                 <select class="select2 form-control" name="mascota_id" id="mascota_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($mascotas as $mascota)
-                                                        <option value="{{ $mascota->id }}" @if (old('mascota_id') != null)
-                                                            @if ($mascota->id == old('mascota_id'))
-                                                                selected @endif
-                                                    @endif>{{ ucfirst($mascota->nombre) }}
+                                                        <option value="{{ $mascota->id }}" 
+                                                            @if (old('mascota_id') != null)
+                                                                @if ($mascota->id == old('mascota_id'))
+                                                                    selected 
+                                                                @endif
+                                                            @endif 
+                                                            @if($selected_mascota == $mascota->id) selected @endif>
+                                                        {{ ucfirst($mascota->nombre) }}
                                                     </option>
                                                     @endforeach
                                                 </select>

@@ -34,12 +34,14 @@ class VisitaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $selected_mascota = $request->mascota_id;
+
         $mascotas = Mascota::with(['cliente' => function ($q) {
             $q->with('veterinaria:id,nombre');
         }])
-            ->byVeterinaria()
+            ->byVeterinaria($selected_mascota)
             ->select('id', 'nombre', 'user_id')
             ->orderBy('nombre', 'ASC')
             ->get();
@@ -59,7 +61,7 @@ class VisitaController extends Controller
             }
         }
 
-        return view('visitas.create', compact('mascotas', 'veterinarios'));
+        return view('visitas.create', compact('mascotas', 'veterinarios', 'selected_mascota'));
     }
 
     /**
