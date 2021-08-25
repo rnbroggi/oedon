@@ -134,9 +134,13 @@
 
                                         <div class="col-md-4 col-12 mt-2">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="file" name="foto">
+                                                <input type="file" class="custom-file-input" id="foto" name="foto">
                                                 <label class="custom-file-label" for="file"> Adjuntar una foto</label>
                                             </div>
+                                        </div> 
+                                        
+                                        <div class="col-md-2 col-12">
+                                            <img id="preview" src="#" alt="Vista previa" width="90px" height="80px"/>
                                         </div> 
 
                                         <div class="col-md-6 col-12">
@@ -252,6 +256,19 @@
     <script src="{{ asset(mix('js/scripts/forms/select/form-select2.js')) }}"></script>
 
     <script>
+        foto = document.getElementById('foto');
+        preview = document.getElementById('preview');
+
+        foto.onchange = evt => {
+            const [file] = foto.files
+            if (file) {
+                preview.src = URL.createObjectURL(file)
+                $('#preview').show();
+            }
+        }
+    </script>
+
+    <script>
         function setRazas(animal_id){
             let razas = @json($razas);
 
@@ -273,6 +290,8 @@
     <script>
 
         $(document).ready(function () {
+            $('#preview').hide();
+
             let oldAnimal = "{{ old('animal_id') }}";
             let oldRaza = "{{ old('raza_id') }}";
 

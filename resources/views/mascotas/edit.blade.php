@@ -132,9 +132,17 @@
                                         
                                         <div class="col-md-4 col-12 mt-2">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="file" name="foto">
+                                                <input type="file" class="custom-file-input" id="foto" name="foto">
                                                 <label class="custom-file-label" for="file"> Adjuntar una foto</label>
                                             </div>
+                                        </div> 
+                                        
+                                        <div class="col-md-2 col-12">
+                                            <img id="preview" 
+                                            src="@if($mascota->getFirstMedia('foto')) {{ $mascota->getFirstMedia('foto')->getFullUrl('profile') }} @endif" 
+                                            alt="Vista previa" 
+                                            width="90px" 
+                                            height="80px"/>
                                         </div> 
 
                                         <div class="col-12">
@@ -188,6 +196,24 @@
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/forms/validation/form-validation.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/select/form-select2.js')) }}"></script>
+
+    <script>
+        foto = document.getElementById('foto');
+        preview = document.getElementById('preview');
+        const picture = "{{ $mascota->getFirstMedia('foto') ? true : false }}";
+        
+        if (!picture){
+            $('#preview').hide();
+        }
+
+        foto.onchange = evt => {
+            const [file] = foto.files
+            if (file) {
+                preview.src = URL.createObjectURL(file)
+                $('#preview').show();
+            }
+        }
+    </script>
 
     <script>
         function setRazas(animal_id){
