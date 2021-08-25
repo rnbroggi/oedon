@@ -20,6 +20,16 @@ class Mascota extends Model implements Auditable, HasMedia
     protected $guarded = ['id'];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fecha_nacimiento'];
 
+    // Delete en cascada de visitas de la mascota
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($mascota) {
+            $mascota->visitas()->delete();
+        });
+    }
+
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('profile')

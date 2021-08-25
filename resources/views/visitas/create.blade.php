@@ -9,6 +9,19 @@
 @endsection
 
 @section('content')
+    <style>
+        ul.file-list {
+            font-family: arial;
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.file-list li {
+            border-bottom: 1px solid #ddd;
+            padding: 5px;
+        }
+
+    </style>
     @if ($message = Session::get('error'))
         <div class="alert alert-danger alert-dismissible" role="alert">
             <p class="mb-0">
@@ -21,14 +34,14 @@
     @endif
 
     @if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <strong>Ocurrieron errores!</strong> Por favor, revise los siguientes campos:<br><br>
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+        <div class="alert alert-danger">
+            <strong>Ocurrieron errores!</strong> Por favor, revise los siguientes campos:<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <!-- // Basic Floating Label Form section start -->
@@ -41,7 +54,8 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form novalidate class="form" action="{{ route('visitas.store') }}" enctype="multipart/form-data" method="POST">
+                            <form novalidate class="form" action="{{ route('visitas.store') }}"
+                                enctype="multipart/form-data" method="POST">
                                 @csrf
                                 <div class="form-body">
                                     <div class="row">
@@ -51,45 +65,57 @@
                                                 <select class="select2 form-control" name="mascota_id" id="mascota_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($mascotas as $mascota)
-                                                        <option value="{{ $mascota->id }}" @if (old('mascota_id') != null)  @if ($mascota->id==old('mascota_id'))
-                                                            selected @endif
+                                                        <option value="{{ $mascota->id }}" @if (old('mascota_id') != null)
+                                                            @if ($mascota->id == old('mascota_id'))
+                                                                selected @endif
                                                     @endif>{{ ucfirst($mascota->nombre) }}
                                                     </option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-label-group">
                                                 <input type="datetime-local" class="form-control" placeholder="Fecha"
-                                                    name="fecha" value="{{ old('fecha') }}" />
+                                                    name="fecha" value="{{ old('fecha') ?? date('Y-m-d\TH:i') }}" />
                                                 <label for="fecha">Fecha</label>
                                             </div>
-                                        </div>  
+                                        </div>
                                         <div class="col-md-6 col-12 mt-md-2">
                                             <div class="form-group">
                                                 <div class="form-label-group controls">
-                                                    <input type="number" class="form-control" placeholder="Peso actual" name="peso"
-                                                        value="{{ old('peso') }}">
+                                                    <input type="number" class="form-control" placeholder="Peso actual"
+                                                        name="peso" value="{{ old('peso') }}">
                                                     <label for="peso">Peso actual</label>
                                                 </div>
                                             </div>
-                                        </div>  
+                                        </div>
 
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="user_veterinario_id">Veterinario</label>
-                                                <select class="select2 form-control" name="user_veterinario_id" id="user_veterinario_id">
+                                                <select class="select2 form-control" name="user_veterinario_id"
+                                                    id="user_veterinario_id">
                                                     <option value="" selected disabled hidden>Seleccionar</option>
                                                     @foreach ($veterinarios as $veterinario)
-                                                        <option value="{{ $veterinario->id }}" @if (old('user_veterinario_id') != null)  @if ($veterinario->id==old('user_veterinario_id'))
-                                                            selected @endif
+                                                        <option value="{{ $veterinario->id }}" @if (old('user_veterinario_id') != null)
+                                                            @if ($veterinario->id == old('user_veterinario_id'))
+                                                                selected @endif
                                                     @endif>{{ ucfirst($veterinario->name) }}
                                                     </option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div> 
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="file" multiple name="adjuntos[]"
+                                                    onchange="javascript:updateList()">
+                                                <label class="custom-file-label" for="file"> Adjuntar archivos</label>
+                                            </div>
+                                            <ul id="fileList" class="file-list"></ul>
+                                        </div>
 
                                         <div class="col-12">
                                             <label for="observaciones">Observaciones</label>
@@ -98,7 +124,7 @@
                                                     placeholder="Observaciones">{{ old('observaciones') }}</textarea>
                                             </fieldset>
                                         </div>
-                                                                         
+
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
                                             <button type="reset"
@@ -127,7 +153,7 @@
 
     @hasrole('superadmin')
     <script>
-        function setVeterinarios(veterinarios){
+        function setVeterinarios(veterinarios) {
             $('#user_veterinario_id').empty().append('<option value="" selected disabled hidden>Seleccionar</option>');
 
             for (const veterinario of veterinarios) {
@@ -140,7 +166,7 @@
             $('#user_veterinario_id').prop("disabled", false);
         }
 
-        function fetchVeterinarios(mascota_id){
+        function fetchVeterinarios(mascota_id) {
             const url = window.location.origin + '/get_veterinarios/' + mascota_id;
 
             fetch(url)
@@ -159,19 +185,32 @@
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#user_veterinario_id').prop('disabled', true);
 
             let oldMascota = "{{ old('mascota_id') }}";
 
-            if(oldMascota){
+            if (oldMascota) {
                 fetchVeterinarios(oldMascota);
             }
 
-            $('#mascota_id').change(function (e) { 
+            $('#mascota_id').change(function(e) {
                 fetchVeterinarios(this.value);
             });
         });
     </script>
     @endhasrole
+
+    <script>
+        updateList = function() {
+            var input = document.getElementById('file');
+            var output = document.getElementById('fileList');
+            var children = "";
+            for (var i = 0; i < input.files.length; ++i) {
+                children += '<li>' + input.files.item(i).name +
+                    '<span></span>' + '</li>'
+            }
+            output.innerHTML = children;
+        }
+    </script>
 @endsection

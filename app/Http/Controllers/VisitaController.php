@@ -76,6 +76,8 @@ class VisitaController extends Controller
 
             $visita->mascota()->update(['peso' => $visita->peso]);
 
+            $this->uploadFiles($visita, $request);
+
             DB::commit();
 
             return redirect()->route('visitas.index')
@@ -128,7 +130,10 @@ class VisitaController extends Controller
      */
     public function destroy(Visita $visita)
     {
-        //
+        $visita->delete();
+
+        return redirect()->route('visitas.index')
+            ->with('success', "Visita eliminada correctamente");
     }
 
     public function getVeterinarios(Request $request, $mascota_id)
@@ -142,5 +147,14 @@ class VisitaController extends Controller
             ->select('id', 'name', 'veterinaria_id')
             ->where('veterinaria_id', $veterinaria_id)
             ->get();
+    }
+
+    private function uploadFiles(Visita $visita, $request)
+    {
+        if($request->hasFile('adjuntos')){
+            foreach($request->adjuntos as $adjunto){
+                $visita->addMedia($adjunto)->toMediaCollection('archivo');
+            }
+        }
     }
 }
