@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Mascotas
     Route::resource('mascotas', 'MascotaController')->middleware('can:crud mascotas');
+    Route::get('update_picture', 'MascotaController@updatePicture')->name('mascotas.update_picture')->middleware('can:crud mascotas');
 
     // Visitas
     Route::resource('visitas', 'VisitaController')

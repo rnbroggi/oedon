@@ -34,32 +34,44 @@
                     <section class="page-users-view">
                         <div class="row">
 
-                            <div class="col-md-4 col-12 text-center">
-                                <img src="@if($mascota->getFirstMedia('foto')){{ $mascota->getFirstMedia('foto')->getFullUrl('profile') ?? asset('images/pages/dog-cat.png') }} @else{{ asset('images/pages/dog-cat.png') }}@endif"
+                            <div class="col-md-4 col-12 text-center" >
+                                <img id="picture" src="@if($mascota->getFirstMedia('foto')){{ $mascota->getFirstMedia('foto')->getFullUrl('profile') ?? asset('images/pages/dog-cat.png') }} @else{{ asset('images/pages/dog-cat.png') }}@endif"
                                     width="350px" 
                                     height="300px" 
                                     alt="Foto de perfil" 
-                                    style="border: 2px solid black;">
+                                    style="border: 2px solid black; cursor: pointer">
 
+                                    @can('crud visitas')
+                                        <div class="row mt-1" id="save-img">
+                                            <div class="col-12">
+                                            <form novalidate class="form" action="{{ route('mascotas.update_picture') }}" enctype="multipart/form-data" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="file" style="display: none" id="img-input">
+                                                <button class="btn btn-outline-success" type="submit">
+                                                    <i class='feather icon-upload' style="margin-left:-9px"></i>
+                                                    Actualizar foto
+                                                </button>
+                                            </div>
+                                        </div>
 
-                                    @hasrole('superadmin')
-                                    <div class="row mt-1">
-                                        <div class="col-12">
-                                            <a href="{{ route('visitas.create', ['mascota_id' => $mascota->id]) }}">
-                                                <button class="btn btn-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
-                                                    Registrar visita
-                                                </button>
-                                            </a>
+                                        <div class="row mt-1">
+                                            <div class="col-12">
+                                                <a href="{{ route('visitas.create', ['mascota_id' => $mascota->id]) }}">
+                                                    <button class="btn btn-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
+                                                        Registrar visita
+                                                    </button>
+                                                </a>
+                                            </div>
+                                            <div class="col-12 mt-1">
+                                                <a href="{{ route('mascotas.edit', $mascota->id) }}">
+                                                    <button class="btn btn-outline-primary"><i class='feather icon-edit' style="margin-left:-9px"></i>
+                                                        Editar
+                                                    </button>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="col-12 mt-1">
-                                            <a href="{{ route('mascotas.edit', $mascota->id) }}">
-                                                <button class="btn btn-outline-primary"><i class='feather icon-edit' style="margin-left:-9px"></i>
-                                                    Editar
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    @endhasrole
+                                    @endcan
                                 </div>
 
                             <div class="col-md-8 col-12 mt-3">
@@ -225,4 +237,19 @@
     <script src="{{ asset(mix('js/scripts/pages/app-user.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/extensions/sweet-alerts.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/datatables/datatable.js')) }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#save-img').hide();
+
+            $('#save-img').change(function (e) { 
+                return;
+            });
+
+            $('#picture').click(function (e) { 
+                $('#img-input').trigger('click'); 
+            });
+            
+        });
+    </script>
 @endsection

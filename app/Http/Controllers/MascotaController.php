@@ -276,4 +276,9 @@ class MascotaController extends Controller
             'observaciones'       => "Primer consulta \n\n" . $mascota->observaciones,
         ]);
     }
+
+    public function updatePicture(Request $request)
+    {
+        return;
+    }
 }
