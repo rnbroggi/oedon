@@ -161,6 +161,7 @@ class VisitaController extends Controller
 
     public function multipleFileDownload(Visita $visita)
     {
+        $this->checkUser($visita);
         $downloads = $visita->getMedia('archivo');
 
         $date = $visita->fecha->toDateString();
@@ -171,15 +172,28 @@ class VisitaController extends Controller
 
     public function singleFileDownload(Media $file)
     {
+        $visita = Visita::findOrFail($file->model_id);
+        $this->checkUser($visita);
         return $file;
-    }
+    }    
     
     public function deleteSingleFile(Media $file)
     {
         $visita_id = $file->model_id;
+        $visita = Visita::findOrFail($visita_id);
+        $this->checkUser($visita);
         $file->delete();
 
         return redirect()->route('visitas.show', $visita_id)
                 ->with('success', "Archivo eliminado correctamente");
+    }
+
+    private function checkUser($visita)
+    {
+        $logged_user = Auth::user();
+        if ($logged_user->hasRole('superadmin')) return;
+
+        if($visita->veterinaria_id != $logged_user->veterinaria_id)
+            abort(404);
     }
 }
