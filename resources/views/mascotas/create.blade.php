@@ -131,12 +131,13 @@
                                                 </select>
                                             </div>
                                         </div> 
-                                        <div class="col-md-6 col-12 mt-md-1">
-                                            <div class="form-group">
-                                                <label for="foto">Foto</label>
-                                                <input type="file" class="form-control-file" id="foto" name="foto">
+
+                                        <div class="col-md-4 col-12 mt-2">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="file" name="foto">
+                                                <label class="custom-file-label" for="file"> Adjuntar una foto</label>
                                             </div>
-                                        </div>  
+                                        </div> 
 
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
