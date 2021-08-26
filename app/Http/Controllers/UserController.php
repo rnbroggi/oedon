@@ -115,7 +115,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Request $request, User $user)
     {
         $breadcrumbs = [
             ['link' => "/", 'name' => "Home"], ['link' => "/users", 'name' => "Usuarios"], ['name' => "Editar usuario"]
@@ -125,7 +125,9 @@ class UserController extends Controller
         $permissions = Permission::select('id', 'name')->get();
         $veterinarias = Veterinaria::select('id', 'nombre')->get();
 
-        return view('users.edit', compact('user', 'roles', 'permissions', 'breadcrumbs', 'veterinarias'));
+        $request_view = $request->view;
+
+        return view('users.edit', compact('user', 'roles', 'permissions', 'breadcrumbs', 'veterinarias', 'request_view'));
     }
 
     /**
@@ -153,6 +155,11 @@ class UserController extends Controller
             $user->syncPermissions($request->permissions);
 
             DB::commit();
+
+            if ($request->view == 'clientes') {
+                return redirect()->route('clientes.index')
+                    ->with('success', 'Cliente actualizado correctamente');
+            }
 
             return redirect()->route('users.index')
                 ->with('success', 'Usuario modificado correctamente');

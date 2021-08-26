@@ -66,7 +66,7 @@
 
                                                 @can('crud usuarios')
                                                 <td>
-                                                    <a href="{{ route('users.edit', $user->id) }}">
+                                                    <a href="{{ route('users.edit', ['user' => $user->id, 'view' => 'clientes']) }}">
                                                         <i class="feather icon-edit"></i>
                                                     </a>
                                                     <span class="delete-button" data-id="{{ $user->id }}"><i

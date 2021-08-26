@@ -41,7 +41,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form novalidate class="form" action="{{ route('users.update', $user->id) }}" method="POST">
+                            <form novalidate class="form" action="{{ route('users.update', ['user' => $user->id, 'view' => $request_view]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="form-body">
