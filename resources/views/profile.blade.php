@@ -78,7 +78,7 @@
                             </div>
                             <h3>Cambio de contraseña</h3>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>Nueva Contraseña</label>
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>Confirmar contraseña</label>

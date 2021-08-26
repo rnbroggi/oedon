@@ -77,6 +77,7 @@ class MascotaController extends Controller
             ->whereHas('roles', function ($q) {
                 $q->whereIn('name', ['administrativo', 'veterinario']);
             })
+            ->where('active', true)
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
@@ -86,6 +87,7 @@ class MascotaController extends Controller
             ->whereHas('roles', function ($q) {
                 $q->where('name', 'cliente');
             })
+            ->where('active', true)
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
@@ -178,6 +180,7 @@ class MascotaController extends Controller
         $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
             $q->whereIn('name', ['administrativo', 'veterinario']);
         })
+            ->where('active', true)
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
@@ -187,6 +190,7 @@ class MascotaController extends Controller
             ->whereHas('roles', function ($q) {
                 $q->where('name', 'cliente');
             })
+            ->where('active', true)
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();

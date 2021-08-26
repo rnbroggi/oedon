@@ -14,7 +14,7 @@ class Visita extends Model implements Auditable, HasMedia
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
     use HasMediaTrait;
-    
+
     protected $table = 'visitas';
     protected $guarded = ['id'];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fecha'];
@@ -39,7 +39,11 @@ class Visita extends Model implements Auditable, HasMedia
         $logged_user = Auth::user();
         if ($logged_user->hasRole('superadmin')) return;
 
+        if ($logged_user->hasRole('cliente'))
+            return $query->whereHas('mascota', function ($q) use ($logged_user) {
+                $q->where('user_id', $logged_user->id);
+            });
+
         return $query->where('veterinaria_id', $logged_user->veterinaria_id);
     }
-
 }

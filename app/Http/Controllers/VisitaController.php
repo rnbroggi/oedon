@@ -22,8 +22,8 @@ class VisitaController extends Controller
     public function __construct()
     {
         $this->middleware('verify_user_on_visit')->only(['show', 'edit', 'update', 'destroy', 'multipleFileDownload', 'singleFileDownload', 'deleteSingleFile']);
-        $this->middleware('can:view visitas')->only(['index', 'show']);
-        $this->middleware('can:crud visitas')->except(['index', 'show']);
+        $this->middleware('can:view visitas')->only(['index', 'show', 'singleFileDownload', 'multipleFileDownload']);
+        $this->middleware('can:crud visitas')->except(['index', 'show', 'singleFileDownload', 'multipleFileDownload']);
     }
 
 
