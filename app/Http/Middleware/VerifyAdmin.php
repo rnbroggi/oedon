@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\User;
 use Closure;
 
 class VerifyAdmin
