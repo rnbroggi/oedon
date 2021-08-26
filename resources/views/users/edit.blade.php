@@ -109,8 +109,8 @@
                                         </div>
                                         <div class="col-12 multiple">
                                             <div class="form-group">
-                                                <label for="roles">Roles</label>
-                                                <select class="select2 form-control" name="roles[]" multiple="multiple">
+                                                <label for="roles">Rol</label>
+                                                <select class="select2 form-control" name="roles[]" @hasrole('superadmin') multiple="multiple" @endhasrole>
                                                     @foreach ($roles as $role)
                                                         <option value="{{ $role->id }}" @if($user->hasRole($role->id)) selected @endif>
                                                     {{ ucfirst($role->name) }}
@@ -119,6 +119,8 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        @hasrole('superadmin')
                                         <div class="col-12 multiple">
                                             <div class="form-group">
                                                 <label for="roles">Permisos</label>
@@ -148,6 +150,7 @@
                                                 </div>
                                             </div>
                                         @endif
+                                        @endhasrole
 
                                         <div class="col-lg-2 col-md-6 col-12 mb-md-2">
                                             <input type="checkbox" name="active" id="active" @if($user->active) checked @endif> Activo

@@ -26,6 +26,7 @@ class UserController extends Controller
         ];
 
         $users = User::with('roles', 'veterinaria:id,nombre')
+            ->byVeterinaria()
             ->select('id', 'name', 'email', 'veterinaria_id', 'active')
             ->orderBy('active', 'DESC')
             ->get();
@@ -44,7 +45,7 @@ class UserController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "/users", 'name' => "Usuarios"], ['name' => "Crear usuario"]
         ];
 
-        $roles = Role::select('id', 'name')->get();
+        $roles = Role::byRole()->select('id', 'name')->get();
         $permissions = Permission::select('id', 'name')->get();
         $veterinarias = Veterinaria::select('id', 'nombre')->get();
 
@@ -67,7 +68,7 @@ class UserController extends Controller
                 'name'           => $request->name,
                 'email'          => $request->email,
                 'telefono'       => $request->telefono,
-                'veterinaria_id' => $request->veterinaria_id,
+                'veterinaria_id' => $request->veterinaria_id ?? Auth::user()->veterinaria_id,
                 'active'         => $request->active == 'on',
                 'password'       => bcrypt($request->password),
             ]);
@@ -111,7 +112,7 @@ class UserController extends Controller
         ];
 
         $user = User::findOrFail($id);
-        $roles = Role::select('id', 'name')->get();
+        $roles = Role::byRole()->select('id', 'name')->get();
         $permissions = Permission::select('id', 'name')->get();
         $veterinarias = Veterinaria::select('id', 'nombre')->get();
 

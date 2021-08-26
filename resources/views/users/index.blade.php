@@ -47,7 +47,9 @@
                                             <th>Nombre</th>
                                             <th>Email</th>
                                             <th>Roles</th>
+                                            @hasrole('superadmin')
                                             <th>Veterinaria</th>
+                                            @endhasrole
                                             <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -59,7 +61,9 @@
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->roles->implode('name', ', ') }} </td>
+                                                @hasrole('superadmin')
                                                 <td>{{ $user->veterinaria->nombre ?? null }}</td>
+                                                @endhasrole
                                                 <td>{{ $user->active ? 'Activo' : 'Inactivo' }}</td>
                                                 <td>
                                                     <a href="{{ route('users.edit', $user->id) }}">
