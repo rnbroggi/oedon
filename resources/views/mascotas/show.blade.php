@@ -131,7 +131,7 @@
                                                 <tr>
                                                     <td class="font-weight-bold">Última visita</td>
                                                     <td>
-                                                        {{ $visitas[0]->fecha->format('d/m/Y') ?? null }}
+                                                        {{ $visitas[0]->fecha->format('d/m/Y H:i:s') ?? null }}
                                                     </td>
                                                 </tr>
                                             @endisset
