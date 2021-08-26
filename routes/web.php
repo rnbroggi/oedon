@@ -27,12 +27,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Usuarios y permisos
     Route::group(['middleware' => ['can:crud usuarios']], function () {
-        Route::resource('users', 'UserController')->middleware('can:crud usuarios');
-        Route::resource('roles', 'RoleController')->middleware('can:crud roles');
-        Route::resource('permissions', 'PermissionController')->middleware('can:crud permisos');
-        Route::get('/impersonate/{user_id}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate');
-        Route::get('/change_user_status/{user}', 'UserController@changeStatus')->name('user.change_status');
+        Route::resource('users', 'UserController')->middleware('can:crud usuarios', ['except' => ['index']]);
         
+        Route::get('/change_user_status/{user}', 'UserController@changeStatus')->name('user.change_status');
+
+        // Roles
+        Route::resource('roles', 'RoleController')->middleware('can:crud roles');
+
+        // Permisos
+        Route::resource('permissions', 'PermissionController')->middleware('can:crud permisos');
+
+        // Impersonate
+        Route::get('/impersonate/{user_id}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate');
+
+
     });
     Route::get('/impersonate_leave', 'UserController@impersonateLeave')->name('impersonate_leave');
 

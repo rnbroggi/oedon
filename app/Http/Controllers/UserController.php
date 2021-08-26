@@ -22,6 +22,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('verify_admin')->only(['edit', 'update', 'destroy', 'changeStatus']);
+        $this->middleware('can:list usuarios')->only(['index']);
     }
 
     /**
@@ -51,8 +52,9 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
+        $users_link = Auth::user()->hasRole('veterinario') ? ['link' => "/clientes", 'name' => "Clientes"] : ['link' => "/users", 'name' => "Usuarios"];
         $breadcrumbs = [
-            ['link' => "/", 'name' => "Home"], ['link' => "/users", 'name' => "Usuarios"], ['name' => "Crear usuario"]
+            ['link' => "/", 'name' => "Home"], $users_link, ['name' => "Crear usuario"]
         ];
 
         $roles = Role::byRole()->select('id', 'name')->get();
@@ -117,8 +119,9 @@ class UserController extends Controller
      */
     public function edit(Request $request, User $user)
     {
+        $users_link = Auth::user()->hasRole('veterinario') ? ['link' => "/clientes", 'name' => "Clientes"] : ['link' => "/users", 'name' => "Usuarios"];
         $breadcrumbs = [
-            ['link' => "/", 'name' => "Home"], ['link' => "/users", 'name' => "Usuarios"], ['name' => "Editar usuario"]
+            ['link' => "/", 'name' => "Home"], $users_link, ['name' => "Editar usuario"]
         ];
 
         $roles = Role::byRole()->select('id', 'name')->get();

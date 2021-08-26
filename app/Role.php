@@ -11,13 +11,17 @@ class Role extends SpatieRole implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
-    
+
     protected $guard_name = 'web';
 
     public function scopeByRole($query)
     {
-        if(Auth::user()->hasRole('administrativo')){
+        $user = Auth::user();
+
+        if ($user->hasRole('administrativo'))
             return $query->whereIn('name', ['administrativo', 'veterinario', 'cliente']);
-        }
+
+        if ($user->hasRole('veterinario'))
+            return $query->where('name', 'cliente');
     }
 }

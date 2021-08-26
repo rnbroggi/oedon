@@ -15,13 +15,19 @@ class VerifyAdmin
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->hasRole('administrativo')){
+        if (!$request->user()->hasRole('superadmin')) {
             $user = $request->route('user');
             $veterinaria_id = $user->veterinaria_id ?? null;
-            
-            if($request->user()->veterinaria_id != $veterinaria_id)
+
+            if ($request->user()->veterinaria_id != $veterinaria_id)
                 abort(404);
+
+            if ($request->user()->hasRole('veterinario')) {
+                if (!$user->hasRole('cliente'))
+                    abort(404);
+            }
         }
+
         return $next($request, $user);
     }
 }

@@ -14,6 +14,7 @@ class PermissionSeeder extends Seeder
     {
         Permission::updateOrCreate(['name' => 'audit-logs', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'home', 'guard_name' => 'web']);
+        Permission::updateOrCreate(['name' => 'list usuarios', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud usuarios', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud roles', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud permisos', 'guard_name' => 'web']);
