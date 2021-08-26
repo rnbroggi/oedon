@@ -63,7 +63,7 @@ class VisitaController extends Controller
         $veterinarios = User::with('veterinaria:id,nombre')
             ->byVeterinaria()
             ->whereHas('roles', function ($q) {
-                $q->where('name', 'veterinario');
+                $q->whereIn('name', ['administrativo', 'veterinario']);
             })
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
@@ -136,7 +136,7 @@ class VisitaController extends Controller
         $veterinarios = User::with('veterinaria:id,nombre')
             ->byVeterinaria()
             ->whereHas('roles', function ($q) {
-                $q->where('name', 'veterinario');
+                $q->whereIn('name', ['administrativo', 'veterinario']);
             })
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')

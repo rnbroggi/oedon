@@ -196,7 +196,7 @@
         $(document).ready(function() {
             $('#user_veterinario_id').prop('disabled', true);
 
-            let oldMascota = "{{ old('mascota_id') }}";
+            let oldMascota = "{{ old('mascota_id') ?? $selected_mascota }}";
 
             if (oldMascota) {
                 fetchVeterinarios(oldMascota);
