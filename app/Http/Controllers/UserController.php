@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('verify_admin')->only(['edit', 'update', 'destroy']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -68,7 +78,7 @@ class UserController extends Controller
                 'name'           => $request->name,
                 'email'          => $request->email,
                 'telefono'       => $request->telefono,
-                'veterinaria_id' => $request->veterinaria_id ?? Auth::user()->veterinaria_id,
+                'veterinaria_id' => Auth::user()->hasRole('superadmin') ? $request->veterinaria_id : Auth::user()->veterinaria_id,
                 'active'         => $request->active == 'on',
                 'password'       => bcrypt($request->password),
             ]);
@@ -105,13 +115,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         $breadcrumbs = [
             ['link' => "/", 'name' => "Home"], ['link' => "/users", 'name' => "Usuarios"], ['name' => "Editar usuario"]
         ];
 
-        $user = User::findOrFail($id);
         $roles = Role::byRole()->select('id', 'name')->get();
         $permissions = Permission::select('id', 'name')->get();
         $veterinarias = Veterinaria::select('id', 'nombre')->get();
@@ -126,10 +135,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         DB::beginTransaction();
         try {
             $user->update([
@@ -137,6 +144,7 @@ class UserController extends Controller
                 'email'          => $request->email,
                 'telefono'       => $request->telefono,
                 'veterinaria_id' => $request->veterinaria_id  ?? $user->veterinaria_id,
+                'veterinaria_id' => Auth::user()->hasRole('superadmin') ? $request->veterinaria_id : $user->veterinaria_id,
                 'active'         => $request->active == 'on',
                 'password'       => $request->password ? bcrypt($request->password) : $user->password,
             ]);
@@ -151,7 +159,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            return redirect()->route('users.edit', $id)
+            return redirect()->route('users.edit', $user->id)
                 ->with('error', 'Ocurrió un error intentado modificar el usuario');
         }
     }
@@ -162,9 +170,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
         $user->delete();
 
         return redirect()->route('users.index')
