@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class VerifyAdmin
+class VerifyUserOnPet
 {
     /**
      * Handle an incoming request.
@@ -15,13 +15,13 @@ class VerifyAdmin
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->hasRole('administrativo')){
-            $user = $request->route('user');
-            $veterinaria_id = $user->veterinaria_id ?? null;
+        if(!$request->user()->hasRole('superadmin')){
+            $mascota = $request->route('mascota');
+            $veterinaria_id = $mascota->cliente->veterinaria_id ?? null;
             
             if($request->user()->veterinaria_id != $veterinaria_id)
                 abort(404);
         }
-        return $next($request, $user);
+        return $next($request, $mascota);
     }
 }

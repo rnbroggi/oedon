@@ -108,7 +108,7 @@
                                 <table>
                                     <tr>
                                         <td valign="top" class="font-weight-bold">Observaciones</td>
-                                        <td>{{ $visita->observaciones }}</td>
+                                        <td>{!! nl2br($visita->observaciones) !!}</td>
                                     </tr>
                                 </table>
                             </div>

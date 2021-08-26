@@ -19,6 +19,17 @@ use Illuminate\Support\Facades\DB;
 class MascotaController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('verify_user_on_pet')->only(['show', 'edit', 'update', 'destroy']);
+    }
+
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -38,6 +49,7 @@ class MascotaController extends Controller
                 $q2->with('animal:id,nombre')->select('id', 'nombre', 'animal_id');
             }
         ])
+            ->byVeterinaria()
             ->select('id', 'nombre', 'raza_id', 'sexo_id', 'user_id')
             ->get();
 

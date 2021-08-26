@@ -173,7 +173,7 @@
                                             <table>
                                                 <tr>
                                                     <td valign="top" class="font-weight-bold">Observaciones</td>
-                                                    <td>{{ $mascota->observaciones }}</td>
+                                                    <td>{!! nl2br($mascota->observaciones) !!}</td>
 
                                                 </tr>
                                             </table>
