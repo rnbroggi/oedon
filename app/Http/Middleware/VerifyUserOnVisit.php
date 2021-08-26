@@ -31,8 +31,13 @@ class VerifyUserOnVisit
 
             if ($request->user()->veterinaria_id != $veterinaria_id)
                 abort(404);
+
+            if ($request->user()->hasRole('cliente')) {
+                if ($visita->mascota->user_id != $request->user()->id)
+                    abort(404);
+            }
         }
-        
+
         return $next($request, $visita);
     }
 }

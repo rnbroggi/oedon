@@ -21,14 +21,17 @@
         </div>
     @endif
 
-    <div class="row mb-3">
-        <div class="col-12">
-            <a href="{{ route('visitas.create') }}">
-                <button class="btn btn-outline-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
-                    Agregar</button>
-            </a>
+    @can('crud visitas')
+        <div class="row mb-3">
+            <div class="col-12">
+                <a href="{{ route('visitas.create') }}">
+                    <button class="btn btn-outline-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
+                        Agregar</button>
+                </a>
+            </div>
         </div>
-    </div>
+    @endcan
+
     <!-- Zero configuration table -->
     <section id="basic-datatable">
         <div class="row">
@@ -58,7 +61,8 @@
                                         @foreach ($visitas as $visita)
                                             <tr>
                                                 <td>{{ $visita->id }}</td>
-                                                <td>{{ $visita->fecha ? $visita->fecha->format('d/m/Y h:i:s') : null }}</td>
+                                                <td>{{ $visita->fecha ? $visita->fecha->format('d/m/Y h:i:s') : null }}
+                                                </td>
                                                 <td>{{ $visita->peso }} kg</td>
                                                 <td>{{ $visita->veterinario->name ?? null }}</td>
                                                 <td>{{ $visita->mascota->nombre ?? null }}</td>
@@ -69,12 +73,16 @@
                                                     <a href="{{ route('visitas.show', $visita->id) }}">
                                                         <i class="feather icon-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('visitas.edit', $visita->id) }}">
-                                                        <i class="feather icon-edit"></i>
-                                                    </a>
-                                                    <span class="delete-button" data-id="{{ $visita->id }}"><i
-                                                        class="feather icon-trash mr-1"
-                                                        style="color:rgb(177, 9, 9); cursor: pointer;"></i></span>
+                                                    @can('crud visitas')
+
+                                                        <a href="{{ route('visitas.edit', $visita->id) }}">
+                                                            <i class="feather icon-edit"></i>
+                                                        </a>
+                                                        <span class="delete-button" data-id="{{ $visita->id }}"><i
+                                                                class="feather icon-trash mr-1"
+                                                                style="color:rgb(177, 9, 9); cursor: pointer;"></i>
+                                                        </span>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -90,7 +98,7 @@
 
     <form id="deleteForm" method="POST" style="display: none">
         {{ csrf_field() }}
-        {{ method_field('DELETE') }} 
+        {{ method_field('DELETE') }}
     </form>
     <!--/ Zero configuration table -->
 @endsection
@@ -113,32 +121,32 @@
     <script src="{{ asset(mix('js/scripts/extensions/sweet-alerts.js')) }}"></script>
 
     <script>
-        $( document ).ready(function() {
-        
-            $(document.body).on('click', '.delete-button', function () {
-                var id = $(this).data('id');
-                
-                Swal.fire({
-                  title: '¿Seguro de que deseas eliminar esta visita?',
-                  type: 'warning',
-                  showCancelButton: true,
-                  cancelButtonText: 'Cancelar',
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Confirmar',
-                  confirmButtonClass: 'btn btn-primary',
-                  cancelButtonClass: 'btn btn-danger ml-1',
-                  buttonsStyling: false,
-                }).then(function (result) {
-                  if (result.value) {
-                      var url = window.location.origin;
-                      url = `${url}/visitas/${id}`
+        $(document).ready(function() {
 
-                    $('#deleteForm').attr('action', url);
-                    $('#deleteForm').submit();                      
-                  }
+            $(document.body).on('click', '.delete-button', function() {
+                var id = $(this).data('id');
+
+                Swal.fire({
+                    title: '¿Seguro de que deseas eliminar esta visita?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar',
+                    confirmButtonClass: 'btn btn-primary',
+                    cancelButtonClass: 'btn btn-danger ml-1',
+                    buttonsStyling: false,
+                }).then(function(result) {
+                    if (result.value) {
+                        var url = window.location.origin;
+                        url = `${url}/visitas/${id}`
+
+                        $('#deleteForm').attr('action', url);
+                        $('#deleteForm').submit();
+                    }
                 })
-              });
+            });
         });
     </script>
 @endsection

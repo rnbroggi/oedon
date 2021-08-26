@@ -60,9 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('update_picture/{mascota}', 'MascotaController@updatePicture')->name('mascotas.update_picture')->middleware('can:crud mascotas');
 
     // Visitas
-    Route::resource('visitas', 'VisitaController')
-        ->middleware('can:crud visitas', ['except' => ['index', 'show']])
-        ->middleware('can:view visitas');
+    Route::resource('visitas', 'VisitaController'); //Middlewares en el controlador
 
     Route::get('get_veterinarios/{mascota_id}', 'VisitaController@getVeterinarios')->name('visitas.get_veterinarios');
 
