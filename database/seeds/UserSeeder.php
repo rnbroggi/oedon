@@ -24,10 +24,8 @@ class UserSeeder extends Seeder
         ]);
 
         $admin = User::find(1);
-        $admin->assignRole('superadmin');
-        $all_permissions = Permission::pluck('name')->toArray();
-        $admin->givePermissionTo($all_permissions);
-
+        $admin->assignRole('superadmin');  
+        
 
         // Creo que usuarios de prueba
 

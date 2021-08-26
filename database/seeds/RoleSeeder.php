@@ -1,5 +1,6 @@
 <?php
 
+use App\Permission;
 use Illuminate\Database\Seeder;
 use App\Role;
 
@@ -12,11 +13,21 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $roles = ['superadmin', 'administrativo', 'veterinario', 'cliente'];
+        // Superadmin
+        $admin = Role::updateOrCreate(['name' => 'superadmin']);
+        $all_permissions = Permission::pluck('name')->toArray();
+        $admin->givePermissionTo($all_permissions);
 
-        foreach ($roles as $role_name) {
-            $r = Role::updateOrCreate(['name' => $role_name]);
-            $r->givePermissionTo('home');
-        }
+        // Permisos del administrativo
+        $r = Role::updateOrCreate(['name' => 'administrativo']);
+        $r->givePermissionTo(['home', 'crud usuarios', 'view clientes', 'crud mascotas', 'crud visitas', 'view visitas']);
+
+        // Permisos del veterinario
+        $r = Role::updateOrCreate(['name' => 'veterinario']);
+        $r->givePermissionTo(['home', 'view clientes', 'crud mascotas', 'crud visitas', 'view visitas']);
+
+        // Permisos del cliente
+        $r->givePermissionTo(['home', 'view visitas']);
+        $r = Role::updateOrCreate(['name' => 'cliente']);
     }
 }
