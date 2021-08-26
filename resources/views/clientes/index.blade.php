@@ -63,14 +63,21 @@
                                                 @hasrole('superadmin')
                                                 <td>{{ $user->veterinaria->nombre ?? null }}</td>
                                                 @endhasrole
+
+                                                @can('crud usuarios')
                                                 <td>
                                                     <a href="{{ route('users.edit', $user->id) }}">
                                                         <i class="feather icon-edit"></i>
                                                     </a>
                                                     <span class="delete-button" data-id="{{ $user->id }}"><i
                                                         class="feather icon-trash mr-1"
-                                                        style="color:rgb(177, 9, 9); cursor: pointer;"></i></span>
+                                                        style="color:rgb(177, 9, 9); cursor: pointer;"></i>
+                                                    </span>
+                                                    <a href="{{ route('user.change_status', ['user' => $user, 'view' => 'clientes']) }}" class="btn btn-{{ !$user->active ? 'success' : 'danger' }} btn-sm">
+                                                        {{ !$user->active ? 'Activar' : 'Desactivar' }}
+                                                    </a>
                                                 </td>
+                                                @endcan
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -127,7 +134,7 @@
                 }).then(function (result) {
                   if (result.value) {
                       var url = window.location.origin;
-                      url = `${url}/clientes/${id}`
+                      url = `${url}/users/${id}?view=clientes`
 
                     $('#deleteForm').attr('action', url);
                     $('#deleteForm').submit();                      

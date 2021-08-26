@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('verify_admin')->only(['edit', 'update', 'destroy']);
+        $this->middleware('verify_admin')->only(['edit', 'update', 'destroy', 'changeStatus']);
     }
 
     /**
@@ -170,9 +170,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         $user->delete();
+
+        if ($request->view == 'clientes') {
+            return redirect()->route('clientes.index')
+                ->with('success', 'Cliente eliminado correctamente');
+        }
 
         return redirect()->route('users.index')
             ->with('success', 'Usuario eliminado correctamente');
@@ -191,12 +196,16 @@ class UserController extends Controller
         return redirect()->route('home');
     }
 
-    public function changeStatus(User $user)
+    public function changeStatus(Request $request, User $user)
     {
-        // dd($user);
         $user->changeStatus();
 
         $msg = $user->active ? 'activado' : 'desactivado';
+
+        if ($request->view == 'clientes') {
+            return redirect()->route('clientes.index')
+                ->with('success', "Usuario $msg correctamente");
+        }
 
         return redirect()->route('users.index')
             ->with('success', "Usuario $msg correctamente");

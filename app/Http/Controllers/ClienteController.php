@@ -18,7 +18,7 @@ class ClienteController extends Controller
             ['link' => "/", 'name' => "Home"], ['name' => "Clientes"]
         ];
 
-        $users = User::select('id', 'name', 'email', 'telefono', 'veterinaria_id')
+        $users = User::select('id', 'name', 'email', 'telefono', 'veterinaria_id', 'active')
         ->byVeterinaria()
         ->whereHas('roles', function($q){
             $q->where('name', 'cliente');

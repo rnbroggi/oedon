@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('veterinarias', 'VeterinariaController')->middleware('can:crud usuarios');
 
     // Clientes
-    Route::get('clientes', 'ClienteController@index')->middleware('can:view clientes');
+    Route::get('clientes', 'ClienteController@index')->name('clientes.index')->middleware('can:view clientes');
 
     // Razas
     Route::resource('razas', 'RazaController')->middleware('can:crud razas');
