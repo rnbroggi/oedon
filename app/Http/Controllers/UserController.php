@@ -211,7 +211,7 @@ class UserController extends Controller
     public function impersonateLeave()
     {
         Auth::user()->leaveImpersonation();
-        return redirect()->route('home');
+        return redirect()->route('users.index');
     }
 
     public function changeStatus(Request $request, User $user)
