@@ -41,7 +41,7 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body">
-                        <form novalidate class="form" action="{{ route('users.store') }}" method="POST">
+                        <form novalidate class="form" action="{{ route('users.store', ['view' => $request_view]) }}" method="POST">
                             @csrf
                             <div class="form-body">
                                 <div class="row">

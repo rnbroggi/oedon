@@ -15,8 +15,8 @@ class VerifyUserOnPet
      */
     public function handle($request, Closure $next)
     {
+        $mascota = $request->route('mascota');
         if (!$request->user()->hasRole('superadmin')) {
-            $mascota = $request->route('mascota');
             $veterinaria_id = $mascota->cliente->veterinaria_id ?? null;
 
             if ($request->user()->veterinaria_id != $veterinaria_id)

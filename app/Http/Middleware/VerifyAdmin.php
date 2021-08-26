@@ -15,8 +15,8 @@ class VerifyAdmin
      */
     public function handle($request, Closure $next)
     {
+        $user = $request->route('user');
         if (!$request->user()->hasRole('superadmin')) {
-            $user = $request->route('user');
             $veterinaria_id = $user->veterinaria_id ?? null;
 
             if ($request->user()->veterinaria_id != $veterinaria_id)

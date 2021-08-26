@@ -16,6 +16,8 @@ class VerifyUserOnVisit
      */
     public function handle($request, Closure $next)
     {
+        $visita = $request->route('visita');
+        
         if (!$request->user()->hasRole('superadmin')) {
             $route_name = $request->route()->getName();
             $visita = null;
@@ -26,7 +28,6 @@ class VerifyUserOnVisit
                 $visita = Visita::findOrFail($visita_id);
             }
 
-            $visita = $visita ?? $request->route('visita');
             $veterinaria_id = $visita->veterinaria_id ?? null;
 
             if ($request->user()->veterinaria_id != $veterinaria_id)

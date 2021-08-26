@@ -24,7 +24,7 @@
     @can('crud usuarios')
     <div class="row mb-3">
         <div class="col-12">
-            <a href="{{ route('users.create', ['user_role' => 'cliente']) }}">
+            <a href="{{ route('users.create', ['user_role' => 'cliente', 'view' => 'clientes']) }}">
                 <button class="btn btn-outline-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
                     Agregar</button>
             </a>
