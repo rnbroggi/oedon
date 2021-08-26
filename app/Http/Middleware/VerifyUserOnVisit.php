@@ -20,7 +20,6 @@ class VerifyUserOnVisit
         
         if (!$request->user()->hasRole('superadmin')) {
             $route_name = $request->route()->getName();
-            $visita = null;
 
             if (in_array($route_name, ['visitas.singleFileDownload', 'visitas.deleteSingleFile'])) {
                 $file = $request->route('file');
