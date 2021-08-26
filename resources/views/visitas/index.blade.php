@@ -61,7 +61,7 @@
                                         @foreach ($visitas as $visita)
                                             <tr>
                                                 <td>{{ $visita->id }}</td>
-                                                <td>{{ $visita->fecha ? $visita->fecha->format('d/m/Y h:i:s') : null }}
+                                                <td>{{ $visita->fecha ? $visita->fecha->format('d/m/Y H:i:s') : null }}
                                                 </td>
                                                 <td>{{ $visita->peso }} kg</td>
                                                 <td>{{ $visita->veterinario->name ?? null }}</td>
