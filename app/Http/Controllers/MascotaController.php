@@ -58,16 +58,20 @@ class MascotaController extends Controller
         $animales = Animal::select('id', 'nombre')->orderBy('nombre')->get();
         $razas = Raza::select('id', 'nombre', 'animal_id')->orderBy('nombre')->get();
 
-        $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
-            $q->where('name', 'veterinario');
-        })
+        $veterinarios = User::with('veterinaria:id,nombre')
+            ->byVeterinaria()
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'veterinario');
+            })
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
 
-        $clientes = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
-            $q->where('name', 'cliente');
-        })
+        $clientes = User::with('veterinaria:id,nombre')
+            ->byVeterinaria()
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'cliente');
+            })
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
@@ -77,13 +81,13 @@ class MascotaController extends Controller
         if (Auth::user()->hasRole('superadmin')) {
             foreach ($clientes as $cliente) {
                 $nombre_veterinaria = $cliente->veterinaria->nombre ?? null;
-                if($nombre_veterinaria)
+                if ($nombre_veterinaria)
                     $cliente->name = "$cliente->name ($nombre_veterinaria)";
             }
 
             foreach ($veterinarios as $veterinario) {
                 $nombre_veterinaria = $veterinario->veterinaria->nombre ?? null;
-                if($nombre_veterinaria)
+                if ($nombre_veterinaria)
                     $veterinario->name = "$veterinario->name ($nombre_veterinaria)";
             }
         }
@@ -176,13 +180,13 @@ class MascotaController extends Controller
         if (Auth::user()->hasRole('superadmin')) {
             foreach ($clientes as $cliente) {
                 $nombre_veterinaria = $cliente->veterinaria->nombre ?? null;
-                if($nombre_veterinaria)
+                if ($nombre_veterinaria)
                     $cliente->name = "$cliente->name ($nombre_veterinaria)";
             }
 
             foreach ($veterinarios as $veterinario) {
                 $nombre_veterinaria = $veterinario->veterinaria->nombre ?? null;
-                if($nombre_veterinaria)
+                if ($nombre_veterinaria)
                     $veterinario->name = "$veterinario->name ($nombre_veterinaria)";
             }
         }
@@ -240,7 +244,17 @@ class MascotaController extends Controller
             $this->validate($request, [
                 'cliente' => 'required|exists:users,id'
             ]);
-            $mascota->update(['user_id' => $request->cliente]);
+
+            // Valido que sea usuario cliente de esta veterinaria
+            if (!Auth::user()->hasRole('superadmin')) {
+                $user = User::where('veterinaria_id', Auth::user()->veterinaria_id)
+                    ->whereHas('roles', function ($q) {
+                        $q->where('name', 'cliente');
+                    })
+                    ->firstOrFail();
+            }
+
+            $mascota->update(['user_id' => $user->id ?? $request->cliente]);
         } else {
             $this->validate($request, [
                 'nombre_cliente'    => 'required|string|max:255',
@@ -283,6 +297,6 @@ class MascotaController extends Controller
         $mascota->addMedia($request->foto)->toMediaCollection('foto');
 
         return redirect()->route('mascotas.show', $mascota->id)
-                ->with('success', "Foto de perfil actualizada correctamente");
+            ->with('success', "Foto de perfil actualizada correctamente");
     }
 }
