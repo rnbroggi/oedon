@@ -23,6 +23,7 @@ class PermissionSeeder extends Seeder
         Permission::updateOrCreate(['name' => 'view clientes', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud razas', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud mascotas', 'guard_name' => 'web']);
+        Permission::updateOrCreate(['name' => 'view mascotas', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'crud visitas', 'guard_name' => 'web']);
         Permission::updateOrCreate(['name' => 'view visitas', 'guard_name' => 'web']);
     }

@@ -26,6 +26,8 @@ class MascotaController extends Controller
     public function __construct()
     {
         $this->middleware('verify_user_on_pet')->only(['show', 'edit', 'update', 'destroy', 'updatePicture']);
+        $this->middleware('can:view mascotas')->only(['index', 'show']);
+        $this->middleware('can:crud mascotas')->except(['index', 'show']);
     }
 
 

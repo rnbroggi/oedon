@@ -27,7 +27,7 @@ class RoleSeeder extends Seeder
         $r->givePermissionTo(['home', 'crud usuarios', 'view clientes', 'crud mascotas', 'crud visitas', 'view visitas']);
 
         // Permisos del cliente
-        $r->givePermissionTo(['home', 'view visitas', 'view mascotas']);
         $r = Role::updateOrCreate(['name' => 'cliente']);
+        $r->givePermissionTo(['home', 'view visitas', 'view mascotas']);
     }
 }

@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Usuarios y permisos
     Route::group(['middleware' => ['can:crud usuarios']], function () {
         Route::resource('users', 'UserController')->middleware('can:crud usuarios', ['except' => ['index']]);
-        
+
         Route::get('/change_user_status/{user}', 'UserController@changeStatus')->name('user.change_status');
 
         // Roles
@@ -39,8 +39,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         // Impersonate
         Route::get('/impersonate/{user_id}', 'UserController@impersonate')->name('impersonate')->middleware('can:impersonate');
-
-
     });
     Route::get('/impersonate_leave', 'UserController@impersonateLeave')->name('impersonate_leave');
 
@@ -57,13 +55,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('razas', 'RazaController')->middleware('can:crud razas');
 
     // Mascotas
-    Route::resource('mascotas', 'MascotaController')->middleware('can:crud mascotas');
+    Route::resource('mascotas', 'MascotaController'); //Middlewares en el controlador
+
     Route::patch('update_picture/{mascota}', 'MascotaController@updatePicture')->name('mascotas.update_picture')->middleware('can:crud mascotas');
 
     // Visitas
     Route::resource('visitas', 'VisitaController')
         ->middleware('can:crud visitas', ['except' => ['index', 'show']])
         ->middleware('can:view visitas');
+
     Route::get('get_veterinarios/{mascota_id}', 'VisitaController@getVeterinarios')->name('visitas.get_veterinarios');
 
     // Archivos visitas

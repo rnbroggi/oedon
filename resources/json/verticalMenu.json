@@ -28,13 +28,13 @@
       "url": "/mascotas",
       "name": "Mascotas",
       "icon": "fa fa-paw",
-      "permission": "crud mascotas"
+      "permission": "view mascotas"
     },
     {
       "url": "/visitas",
       "name": "Visitas",
       "icon": "fa fa-calendar",
-      "permission": "crud visitas"
+      "permission": "view visitas"
     },
     {
       "url": "",

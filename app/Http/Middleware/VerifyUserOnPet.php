@@ -15,12 +15,17 @@ class VerifyUserOnPet
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->hasRole('superadmin')){
+        if (!$request->user()->hasRole('superadmin')) {
             $mascota = $request->route('mascota');
             $veterinaria_id = $mascota->cliente->veterinaria_id ?? null;
-            
-            if($request->user()->veterinaria_id != $veterinaria_id)
+
+            if ($request->user()->veterinaria_id != $veterinaria_id)
                 abort(404);
+
+            if ($request->user()->hasRole('cliente')) {
+                if ($mascota->user_id != $request->user()->id)
+                    abort(404);
+            }
         }
         return $next($request, $mascota);
     }

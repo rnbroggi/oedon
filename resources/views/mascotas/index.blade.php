@@ -21,14 +21,16 @@
         </div>
     @endif
 
-    <div class="row mb-3">
-        <div class="col-12">
-            <a href="{{ route('mascotas.create') }}">
-                <button class="btn btn-outline-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
-                    Agregar</button>
-            </a>
+    @can('crud mascotas')
+        <div class="row mb-3">
+            <div class="col-12">
+                <a href="{{ route('mascotas.create') }}">
+                    <button class="btn btn-outline-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
+                        Agregar</button>
+                </a>
+            </div>
         </div>
-    </div>
+    @endcan
     <!-- Zero configuration table -->
     <section id="basic-datatable">
         <div class="row">
@@ -47,7 +49,9 @@
                                             <th>Nombre</th>
                                             <th>Animal</th>
                                             <th>Raza</th>
-                                            <th>Dueño</th>
+                                            @can('crud mascotas')
+                                                <th>Dueño</th>
+                                            @endcan
                                             @hasrole('superadmin')
                                             <th>Veterinaria</th>
                                             @endhasrole
@@ -61,7 +65,9 @@
                                                 <td>{{ $mascota->nombre }}</td>
                                                 <td>{{ $mascota->raza->animal->nombre ?? null }}</td>
                                                 <td>{{ $mascota->raza->nombre ?? null }}</td>
-                                                <td>{{ $mascota->cliente->name ?? null }}</td>
+                                                @can('crud mascotas')
+                                                    <td>{{ $mascota->cliente->name ?? null }}</td>
+                                                @endcan
                                                 @hasrole('superadmin')
                                                 <td>{{ $mascota->cliente->veterinaria->nombre ?? null }}</td>
                                                 @endhasrole
@@ -69,12 +75,15 @@
                                                     <a href="{{ route('mascotas.show', $mascota->id) }}">
                                                         <i class="feather icon-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('mascotas.edit', $mascota->id) }}">
-                                                        <i class="feather icon-edit"></i>
-                                                    </a>
-                                                    <span class="delete-button" data-id="{{ $mascota->id }}"><i
-                                                        class="feather icon-trash mr-1"
-                                                        style="color:rgb(177, 9, 9); cursor: pointer;"></i></span>
+                                                    @can('crud mascotas')
+                                                        <a href="{{ route('mascotas.edit', $mascota->id) }}">
+                                                            <i class="feather icon-edit"></i>
+                                                        </a>
+                                                        <span class="delete-button" data-id="{{ $mascota->id }}"><i
+                                                                class="feather icon-trash mr-1"
+                                                                style="color:rgb(177, 9, 9); cursor: pointer;"></i>
+                                                        </span>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -90,7 +99,7 @@
 
     <form id="deleteForm" method="POST" style="display: none">
         {{ csrf_field() }}
-        {{ method_field('DELETE') }} 
+        {{ method_field('DELETE') }}
     </form>
     <!--/ Zero configuration table -->
 @endsection
@@ -113,32 +122,32 @@
     <script src="{{ asset(mix('js/scripts/extensions/sweet-alerts.js')) }}"></script>
 
     <script>
-        $( document ).ready(function() {
-        
-            $(document.body).on('click', '.delete-button', function () {
-                var id = $(this).data('id');
-                
-                Swal.fire({
-                  title: '¿Seguro de que deseas eliminar esta mascota?',
-                  type: 'warning',
-                  showCancelButton: true,
-                  cancelButtonText: 'Cancelar',
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Confirmar',
-                  confirmButtonClass: 'btn btn-primary',
-                  cancelButtonClass: 'btn btn-danger ml-1',
-                  buttonsStyling: false,
-                }).then(function (result) {
-                  if (result.value) {
-                      var url = window.location.origin;
-                      url = `${url}/mascotas/${id}`
+        $(document).ready(function() {
 
-                    $('#deleteForm').attr('action', url);
-                    $('#deleteForm').submit();                      
-                  }
+            $(document.body).on('click', '.delete-button', function() {
+                var id = $(this).data('id');
+
+                Swal.fire({
+                    title: '¿Seguro de que deseas eliminar esta mascota?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar',
+                    confirmButtonClass: 'btn btn-primary',
+                    cancelButtonClass: 'btn btn-danger ml-1',
+                    buttonsStyling: false,
+                }).then(function(result) {
+                    if (result.value) {
+                        var url = window.location.origin;
+                        url = `${url}/mascotas/${id}`
+
+                        $('#deleteForm').attr('action', url);
+                        $('#deleteForm').submit();
+                    }
                 })
-              });
+            });
         });
     </script>
 @endsection
