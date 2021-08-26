@@ -115,19 +115,16 @@
                         </div>
 
                         <div class="col-12 mt-2 text-right">
-                            <a href="{{ route('visitas.multipleFileDownload', $visita) }}" target="_blank" class="btn btn-success mr-1">
+                            <a href="{{ route('visitas.multipleFileDownload', $visita) }}" target="_blank"
+                                class="btn btn-success mr-1">
                                 <i class="feather icon-download"></i>
                                 Descargar archivos
                             </a>
-                        @hasanyrole('superadmin|administrativo|veterinario')
+                            @hasanyrole('superadmin|administrativo|veterinario')
                             <a href="{{ route('visitas.edit', $visita->id) }}" class="btn btn-primary mr-1"><i
                                     class="feather icon-edit-1"></i>
                                 Editar
                             </a>
-                            <button id="delete-button" data-id="{{ $visita->id }}" class="btn btn-outline-danger"><i
-                                    class="feather icon-trash-2"></i>
-                                Eliminar
-                            </button>
                             @endhasanyrole
                         </div>
                     </section>

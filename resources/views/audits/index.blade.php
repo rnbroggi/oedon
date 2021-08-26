@@ -46,7 +46,7 @@
                                     <tbody>
                                         @foreach ($audits as $audit)
                                             <tr>
-                                                <td>{{ $audit->user->name ?? null }}</td>
+                                                <td>{{ $audit->user->id ?? null }}</td>
                                                 <td>{{ $audit->event }}</td>
                                                 <td>{{ $audit->auditable_type }}</td>
                                                 <td>{{ $audit->auditable_id }}</td>
