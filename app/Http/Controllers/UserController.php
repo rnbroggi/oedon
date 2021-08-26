@@ -40,6 +40,7 @@ class UserController extends Controller
             ->byVeterinaria()
             ->select('id', 'name', 'email', 'veterinaria_id', 'active')
             ->orderBy('active', 'DESC')
+            ->orderBy('name')
             ->get();
 
         return view('users.index', compact('users', 'breadcrumbs'));

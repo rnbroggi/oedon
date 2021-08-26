@@ -65,7 +65,13 @@
                                                 </td>
                                                 <td>{{ $visita->peso }} kg</td>
                                                 <td>{{ $visita->veterinario->name ?? null }}</td>
-                                                <td>{{ $visita->mascota->nombre ?? null }}</td>
+                                                @if ($visita->mascota->nombre)
+                                                    <td>
+                                                        <a href="{{ route('mascotas.show', $visita->mascota->id) }}" target="_blank">
+                                                            {{ $visita->mascota->nombre }}
+                                                        </a>
+                                                    </td>
+                                                @endif
                                                 @hasrole('superadmin')
                                                 <td>{{ $visita->veterinaria->nombre ?? null }}</td>
                                                 @endhasrole

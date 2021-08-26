@@ -62,10 +62,12 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="font-weight-bold">Peso</td>
-                                        <td>{{ $visita->peso }} kg</td>
-                                    </tr>
+                                    @if ($visita->peso)
+                                        <tr>
+                                            <td class="font-weight-bold">Peso</td>
+                                            <td>{{ $visita->peso }} kg</td>
+                                        </tr>
+                                    @endif
 
                                     <tr>
                                         <td class="font-weight-bold">Atendido por</td>

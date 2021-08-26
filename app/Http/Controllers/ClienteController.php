@@ -19,11 +19,13 @@ class ClienteController extends Controller
         ];
 
         $users = User::select('id', 'name', 'email', 'telefono', 'veterinaria_id', 'active')
-        ->byVeterinaria()
-        ->whereHas('roles', function($q){
-            $q->where('name', 'cliente');
-        })
-        ->get();
+            ->byVeterinaria()
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'cliente');
+            })
+            ->orderBy('active', 'DESC')
+            ->orderBy('name')
+            ->get();
 
         return view('clientes.index', compact('users', 'breadcrumbs'));
     }
