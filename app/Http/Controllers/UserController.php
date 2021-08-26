@@ -136,7 +136,7 @@ class UserController extends Controller
                 'name'           => $request->name,
                 'email'          => $request->email,
                 'telefono'       => $request->telefono,
-                'veterinaria_id' => $request->veterinaria_id,
+                'veterinaria_id' => $request->veterinaria_id  ?? $user->veterinaria_id,
                 'active'         => $request->active == 'on',
                 'password'       => $request->password ? bcrypt($request->password) : $user->password,
             ]);
