@@ -128,6 +128,7 @@
                 
                 Swal.fire({
                   title: '¿Seguro de que deseas eliminar este cliente?',
+                  text: 'Se borrarán todas las mascotas y visitas asociadas',
                   type: 'warning',
                   showCancelButton: true,
                   cancelButtonText: 'Cancelar',

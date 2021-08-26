@@ -49,6 +49,19 @@ class User extends Authenticatable implements Auditable, HasMedia
         'email_verified_at' => 'datetime',
     ];
 
+    // Delete en cascada de las mascotas del usuario
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($user) {
+            foreach ($user->mascotas as $mascota) {
+                $mascota->visitas()->delete();
+                $mascota->delete();
+            }
+        });
+    }
+
     public function canImpersonate()
     {
         return $this->hasRole('superadmin');
@@ -57,6 +70,11 @@ class User extends Authenticatable implements Auditable, HasMedia
     public function canBeImpersonated()
     {
         return !$this->hasRole('superadmin');
+    }
+
+    public function mascotas()
+    {
+        return $this->hasMany(Mascota::class, 'user_id', 'id');
     }
 
     public function veterinaria()
