@@ -23,7 +23,7 @@
 
     <div class="row mb-3">
         <div class="col-12">
-            <a href="{{ route('users.create') }}">
+            <a href="{{ route('users.create', ['user_role' => 'cliente']) }}">
                 <button class="btn btn-outline-primary"><i class='feather icon-plus' style="margin-left:-9px"></i>
                     Agregar</button>
             </a>
@@ -47,6 +47,9 @@
                                             <th>Nombre</th>
                                             <th>Email</th>
                                             <th>Teléfono</th>
+                                            @hasrole('superadmin')
+                                            <th>Veterinaria</th>
+                                            @endhasrole
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -56,7 +59,10 @@
                                                 <td>{{ $user->id }}</td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                <td>{{ $user->telefono }}</td>
+                                                <td>{{ $user->telefono }}</td>                                                
+                                                @hasrole('superadmin')
+                                                <td>{{ $user->veterinaria->nombre ?? null }}</td>
+                                                @endhasrole
                                                 <td>
                                                     <a href="{{ route('users.edit', $user->id) }}">
                                                         <i class="feather icon-edit"></i>

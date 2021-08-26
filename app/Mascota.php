@@ -74,7 +74,7 @@ class Mascota extends Model implements Auditable, HasMedia
         return $this->hasMany(Visita::class, 'mascota_id', 'id')->with('veterinario:id,name')->orderBy('id', 'DESC');
     }
 
-    public function scopeByVeterinaria($query, $mascota_id)
+    public function scopeByVeterinaria($query, $mascota_id = null)
     {
         if($mascota_id)
             $query = $query->where('id', $mascota_id);

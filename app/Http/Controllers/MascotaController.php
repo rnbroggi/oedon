@@ -277,8 +277,12 @@ class MascotaController extends Controller
         ]);
     }
 
-    public function updatePicture(Request $request)
+    public function updatePicture(Request $request, Mascota $mascota)
     {
-        return;
+        $mascota->clearMediaCollection('foto');
+        $mascota->addMedia($request->foto)->toMediaCollection('foto');
+
+        return redirect()->route('mascotas.show', $mascota->id)
+                ->with('success', "Foto de perfil actualizada correctamente");
     }
 }

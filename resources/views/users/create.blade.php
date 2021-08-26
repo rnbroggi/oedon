@@ -114,7 +114,8 @@
                                                     <option value="{{ $role->id }}" @if (old('roles') != null) 
                                                         @if (in_array($role->id, old('roles')))
                                                         selected @endif
-                                                @endif>
+                                                @endif
+                                                @if($role->name == $selected_role) selected @endif>
                                                 {{ ucfirst($role->name) }}
                                                 </option>
                                                 @endforeach

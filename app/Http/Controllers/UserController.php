@@ -38,7 +38,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $breadcrumbs = [
             ['link' => "/", 'name' => "Home"], ['link' => "/users", 'name' => "Usuarios"], ['name' => "Crear usuario"]
@@ -48,7 +48,9 @@ class UserController extends Controller
         $permissions = Permission::select('id', 'name')->get();
         $veterinarias = Veterinaria::select('id', 'nombre')->get();
 
-        return view('users.create', compact('breadcrumbs', 'roles', 'permissions', 'veterinarias'));
+        $selected_role = $request->user_role;
+
+        return view('users.create', compact('breadcrumbs', 'roles', 'permissions', 'veterinarias', 'selected_role'));
     }
 
     /**
