@@ -151,7 +151,11 @@
                                                     @foreach ($veterinarios as $veterinario)
                                                         <option value="{{ $veterinario->id }}" @if (old('veterinario_id') != null)  @if ($veterinario->id==old('veterinario_id'))
                                                             selected @endif
-                                                    @endif>{{ ucfirst($veterinario->name) }}
+                                                    @endif
+                                                    @if(Auth::user()->id == $veterinario->id)
+                                                    selected
+                                                    @endif
+                                                    >{{ ucfirst($veterinario->name) }}
                                                     </option>
                                                     @endforeach
                                                 </select>

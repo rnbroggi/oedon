@@ -59,6 +59,7 @@
                                                     <i class='feather icon-check' style="margin-left:-9px"></i>
                                                     Guardar cambios
                                                 </button>
+                                            </form>
                                         </div>
                                     </div>
 

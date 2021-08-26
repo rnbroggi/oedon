@@ -21,6 +21,7 @@
         </div>
     @endif
 
+    @can('crud usuarios')
     <div class="row mb-3">
         <div class="col-12">
             <a href="{{ route('users.create', ['user_role' => 'cliente']) }}">
@@ -29,6 +30,8 @@
             </a>
         </div>
     </div>
+    @endcan
+    
     <!-- Zero configuration table -->
     <section id="basic-datatable">
         <div class="row">
@@ -50,7 +53,10 @@
                                             @hasrole('superadmin')
                                             <th>Veterinaria</th>
                                             @endhasrole
+
+                                            @can('crud usuarios')
                                             <th>Acciones</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody>
