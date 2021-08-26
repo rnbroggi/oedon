@@ -15,6 +15,17 @@ use Spatie\MediaLibrary\MediaStream;
 class VisitaController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('verify_user_on_visit')->only(['show', 'edit', 'update', 'destroy', 'multipleFileDownload', 'singleFileDownload', 'deleteSingleFile']);
+    }
+
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -23,6 +34,7 @@ class VisitaController extends Controller
     {
         $visitas = Visita::with('veterinaria:id,nombre', 'veterinario:id,name')
             ->select('id', 'mascota_id', 'fecha', 'peso', 'user_veterinario_id', 'veterinaria_id')
+            ->byVeterinaria()
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -46,9 +58,11 @@ class VisitaController extends Controller
             ->orderBy('nombre', 'ASC')
             ->get();
 
-        $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
-            $q->where('name', 'veterinario');
-        })
+        $veterinarios = User::with('veterinaria:id,nombre')
+            ->byVeterinaria()
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'veterinario');
+            })
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
@@ -117,9 +131,11 @@ class VisitaController extends Controller
             ->byVeterinaria()
             ->select('id', 'nombre', 'user_id');
 
-        $veterinarios = User::with('veterinaria:id,nombre')->byVeterinaria()->whereHas('roles', function ($q) {
-            $q->where('name', 'veterinario');
-        })
+        $veterinarios = User::with('veterinaria:id,nombre')
+            ->byVeterinaria()
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'veterinario');
+            })
             ->orderBy('name')
             ->select('id', 'name', 'veterinaria_id')
             ->get();
@@ -151,7 +167,7 @@ class VisitaController extends Controller
         $this->uploadFiles($visita, $request);
 
         return redirect()->route('visitas.index')
-                ->with('success', "Visita actualizada correctamente");
+            ->with('success', "Visita actualizada correctamente");
     }
 
     /**
@@ -190,9 +206,8 @@ class VisitaController extends Controller
         }
     }
 
-    public function multipleFileDownload(Visita $visita)
+    public function multipleFileDownload(Request $request, Visita $visita)
     {
-        $this->checkUser($visita);
         $downloads = $visita->getMedia('archivo');
 
         $date = $visita->fecha->toDateString();
@@ -203,32 +218,20 @@ class VisitaController extends Controller
 
     public function singleFileDownload(Media $file)
     {
-        $visita = Visita::findOrFail($file->model_id);
-        $this->checkUser($visita);
         return $file;
     }
 
     public function deleteSingleFile(Request $request, Media $file)
     {
         $visita_id = $file->model_id;
-        $visita = Visita::findOrFail($visita_id);
-        $this->checkUser($visita);
         $file->delete();
 
         if ($request->view == 'edit') {
             return redirect()->route('visitas.edit', $visita_id)
                 ->with('success', "Archivo eliminado correctamente");
         }
+
         return redirect()->route('visitas.show', $visita_id)
             ->with('success', "Archivo eliminado correctamente");
-    }
-
-    private function checkUser($visita)
-    {
-        $logged_user = Auth::user();
-        if ($logged_user->hasRole('superadmin')) return;
-
-        if ($visita->veterinaria_id != $logged_user->veterinaria_id)
-            abort(404);
     }
 }

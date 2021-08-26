@@ -14,7 +14,7 @@ class StoreVisita extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('crud veterinarias');
+        return Auth::user()->can('crud visitas');
     }
 
     /**

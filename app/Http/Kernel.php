@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'verify_admin' => Middleware\VerifyAdmin::class,
         'verify_user_on_pet' => Middleware\VerifyUserOnPet::class,
+        'verify_user_on_visit' => Middleware\VerifyUserOnVisit::class,
     ];
 
     /**
