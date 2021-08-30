@@ -42,7 +42,7 @@
                     <section class="page-users-view">
                         <div class="row">
 
-                            <div class="col-xl-4 col-12 text-center">
+                            <div class="col-xl-4 col-lg-5 col-12 text-center">
                                 <img id="picture" src="@if ($mascota->getFirstMedia('foto')){{ $mascota->getFirstMedia('foto')->getFullUrl('profile') ?? asset('images/pages/dog-cat.png') }} @else{{ asset('images/pages/dog-cat.png') }}@endif" width="350px" height="300px"
                                     alt="Foto de perfil" style="border: 2px solid black; cursor: pointer">
 
@@ -84,7 +84,7 @@
                                 @endcan
                             </div>
 
-                            <div class="col-xl-8 col-12 mt-3">
+                            <div class="col-xl-6 col-lg-7 col-12 mt-3">
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <table>
