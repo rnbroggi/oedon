@@ -46,7 +46,7 @@
                                 <img id="picture" src="@if ($mascota->getFirstMedia('foto')){{ $mascota->getFirstMedia('foto')->getFullUrl('profile') ?? asset('images/pages/dog-cat.png') }} @else{{ asset('images/pages/dog-cat.png') }}@endif" width="350px" height="300px"
                                     alt="Foto de perfil" style="border: 2px solid black; cursor: pointer">
 
-                                @can('crud visitas')
+                                @can('crud mascotas')
                                     <div class="row mt-1" id="save-img">
                                         <div class="col-12">
                                             <form novalidate class="form"
@@ -181,6 +181,15 @@
                                         </div>
                                     </div>
                                 @endif
+
+                                <div class="row">
+                                    <div class="col-12 mt-2 text-right">
+                                        <span class="btn btn-danger mr-1 delete-button" data-id="{{ $mascota->id }}">
+                                            <i class="feather icon-trash"></i>
+                                            Eliminar
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -188,6 +197,13 @@
             </div>
         </div>
     </section>
+
+    @can('crud mascotas')
+        <form id="deleteForm" method="POST" style="display: none">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+        </form>
+    @endcan
 
     <div class="card">
         <div class="card-header">
@@ -278,4 +294,36 @@
 
         });
     </script>
+
+    @can('crud mascotas')
+        <script>
+            $(document).ready(function() {
+
+                $(document.body).on('click', '.delete-button', function() {
+                    var id = $(this).data('id');
+
+                    Swal.fire({
+                        title: '¿Seguro de que deseas eliminar esta mascota?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Confirmar',
+                        confirmButtonClass: 'btn btn-primary',
+                        cancelButtonClass: 'btn btn-danger ml-1',
+                        buttonsStyling: false,
+                    }).then(function(result) {
+                        if (result.value) {
+                            var url = window.location.origin;
+                            url = `${url}/mascotas/${id}`
+
+                            $('#deleteForm').attr('action', url);
+                            $('#deleteForm').submit();
+                        }
+                    })
+                });
+            });
+        </script>
+    @endcan
 @endsection
