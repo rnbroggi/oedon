@@ -56,11 +56,27 @@
                             </table>
                         </div>
                     </div>
+
+                    <div class="col-12 mt-2 text-right">
+                        <a href="{{ route('veterinarias.edit', $veterinaria->id) }}" class="btn btn-primary mr-1"><i
+                                class="feather icon-edit-1"></i>
+                            Editar
+                        </a>
+                        <span class="btn btn-danger mr-1 delete-button" data-id="{{ $veterinaria->id }}">
+                            <i class="feather icon-trash"></i>
+                            Eliminar
+                        </span>
+                    </div>
                 </section>
             </div>
         </div>
     </div>
 </section>
+
+<form id="deleteForm" method="POST" style="display: none">
+    {{ csrf_field() }}
+    {{ method_field('DELETE') }} 
+</form>
 
 <div class="card">
     <div class="card-header">
@@ -112,4 +128,34 @@
 <script src="{{ asset(mix('js/scripts/pages/app-user.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/extensions/sweet-alerts.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/datatables/datatable.js')) }}"></script>
+
+<script>
+    $( document ).ready(function() {
+    
+        $(document.body).on('click', '.delete-button', function () {
+            var id = $(this).data('id');
+            
+            Swal.fire({
+              title: '¿Seguro de que deseas eliminar esta veterinaria?',
+              type: 'warning',
+              showCancelButton: true,
+              cancelButtonText: 'Cancelar',
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Confirmar',
+              confirmButtonClass: 'btn btn-primary',
+              cancelButtonClass: 'btn btn-danger ml-1',
+              buttonsStyling: false,
+            }).then(function (result) {
+              if (result.value) {
+                  var url = window.location.origin;
+                  url = `${url}/veterinarias/${id}`
+
+                $('#deleteForm').attr('action', url);
+                $('#deleteForm').submit();                      
+              }
+            })
+          });
+    });
+</script>
 @endsection

@@ -20,7 +20,15 @@ class Veterinaria extends Model implements Auditable
         parent::boot();
 
         static::deleted(function ($veterinaria) {
-            $veterinaria->users()->delete();
+            foreach ($veterinaria->users as $user) {
+                $user->active = false;
+                $user->save();
+
+                foreach ($user->mascotas as $mascota) {
+                    $mascota->visitas()->delete();
+                    $mascota->delete();
+                }
+            }
         });
     }
 
