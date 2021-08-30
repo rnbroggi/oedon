@@ -122,18 +122,29 @@
                                 <i class="feather icon-download"></i>
                                 Descargar archivos
                             </a>
-                            @hasanyrole('superadmin|administrativo|veterinario')
-                            <a href="{{ route('visitas.edit', $visita->id) }}" class="btn btn-primary mr-1"><i
-                                    class="feather icon-edit-1"></i>
-                                Editar
-                            </a>
-                            @endhasanyrole
+                            @can('crud visitas')
+                                <a href="{{ route('visitas.edit', $visita->id) }}" class="btn btn-primary mr-1"><i
+                                        class="feather icon-edit-1"></i>
+                                    Editar
+                                </a>
+                                <span class="btn btn-danger mr-1 delete-button" data-id="{{ $visita->id }}">
+                                    <i class="feather icon-trash"></i>
+                                    Eliminar
+                                </span>
+                            @endcan
                         </div>
                     </section>
                 </div>
             </div>
         </div>
     </section>
+
+    @can('crud visitas')
+        <form id="deleteForm" method="POST" style="display: none">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+        </form>
+    @endcan
 
 @endsection
 
@@ -157,32 +168,62 @@
     <script src="{{ asset(mix('js/scripts/extensions/sweet-alerts.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/datatables/datatable.js')) }}"></script>
 
-    @hasanyrole('superadmin|administrativo|veterinario')
-    <script>
-        $(document).ready(function() {
-            $(document.body).on('click', '.delete-file-button', function() {
-                var id = $(this).data('id');
+    @can('crud visitas')
+        <script>
+            $(document).ready(function() {
+                $(document.body).on('click', '.delete-file-button', function() {
+                    var id = $(this).data('id');
 
-                Swal.fire({
-                    title: 'Seguro que desea eliminar este archivo?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Confirmar',
-                    confirmButtonClass: 'btn btn-primary',
-                    cancelButtonClass: 'btn btn-danger ml-1',
-                    buttonsStyling: false,
-                }).then(function(result) {
-                    if (result.value) {
-                        window.location.href = "{{ route('visitas.deleteSingleFile', [':id']) }}"
-                            .replace(':id', id);
-                    }
-                })
+                    Swal.fire({
+                        title: 'Seguro que desea eliminar este archivo?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Confirmar',
+                        confirmButtonClass: 'btn btn-primary',
+                        cancelButtonClass: 'btn btn-danger ml-1',
+                        buttonsStyling: false,
+                    }).then(function(result) {
+                        if (result.value) {
+                            window.location.href = "{{ route('visitas.deleteSingleFile', [':id']) }}"
+                                .replace(':id', id);
+                        }
+                    })
+                });
             });
-        });
-    </script>
-    @endhasanyrole
+        </script>
+
+        <script>
+            $(document).ready(function() {
+
+                $(document.body).on('click', '.delete-button', function() {
+                    var id = $(this).data('id');
+
+                    Swal.fire({
+                        title: '¿Seguro de que deseas eliminar esta visita?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Confirmar',
+                        confirmButtonClass: 'btn btn-primary',
+                        cancelButtonClass: 'btn btn-danger ml-1',
+                        buttonsStyling: false,
+                    }).then(function(result) {
+                        if (result.value) {
+                            var url = window.location.origin;
+                            url = `${url}/visitas/${id}`
+
+                            $('#deleteForm').attr('action', url);
+                            $('#deleteForm').submit();
+                        }
+                    })
+                });
+            });
+        </script>
+    @endcan
 
 @endsection

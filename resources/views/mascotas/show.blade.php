@@ -182,14 +182,17 @@
                                     </div>
                                 @endif
 
-                                <div class="row">
-                                    <div class="col-12 mt-2 text-right">
-                                        <span class="btn btn-danger mr-1 delete-button" data-id="{{ $mascota->id }}">
-                                            <i class="feather icon-trash"></i>
-                                            Eliminar
-                                        </span>
+
+                                @can('crud mascotas')
+                                    <div class="row">
+                                        <div class="col-12 mt-2 text-right">
+                                            <span class="btn btn-danger mr-1 delete-button" data-id="{{ $mascota->id }}">
+                                                <i class="feather icon-trash"></i>
+                                                Eliminar
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                         </div>
                     </section>
