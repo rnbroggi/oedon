@@ -93,6 +93,6 @@ class User extends Authenticatable implements Auditable, HasMedia
         $logged_user = Auth::user();
         if ($logged_user->hasRole('superadmin')) return;
 
-        return $query->where('veterinaria_id', $logged_user->veterinaria_id);
+        return $query->where('veterinaria_id', $logged_user->veterinaria_id ?? 0);
     }
 }
