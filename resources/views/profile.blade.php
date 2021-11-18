@@ -91,7 +91,7 @@
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>Confirmar contraseña</label>
-                                            <input type="password" class="form-control" placeholder="Confirmar contraseña" name="confirm_password"
+                                            <input type="password" class="form-control" placeholder="Confirmar contraseña" name="password_confirmation"
                                                 value="">
                                         </div>
                                     </div>
