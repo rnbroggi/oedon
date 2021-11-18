@@ -44,6 +44,6 @@ class Visita extends Model implements Auditable, HasMedia
                 $q->where('user_id', $logged_user->id);
             });
 
-        return $query->where('veterinaria_id', $logged_user->veterinaria_id);
+        return $query->where('veterinaria_id', $logged_user->veterinaria_id ?? 0);
     }
 }

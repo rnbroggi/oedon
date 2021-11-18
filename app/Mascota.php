@@ -86,7 +86,7 @@ class Mascota extends Model implements Auditable, HasMedia
             return $query->where('user_id', $logged_user->id);
 
         $query = $query->whereHas('cliente', function ($q) use ($logged_user) {
-            $q->where('veterinaria_id', $logged_user->veterinaria_id);
+            $q->where('veterinaria_id', $logged_user->veterinaria_id ?? 0);
         });
 
         return $query;
