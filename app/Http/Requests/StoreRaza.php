@@ -26,7 +26,14 @@ class StoreRaza extends FormRequest
     {
         return [
             'nombre'    => 'required|string|max:255',
-            'animal_id' => 'integer|nullable|exists:animales,id',
+            'animal_id' => 'required|exists:animales,id',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'animal_id' => 'Animal',
         ];
     }
 }
