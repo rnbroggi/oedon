@@ -43,11 +43,11 @@ class Mascota extends Model implements Auditable, HasMedia
     {
         if ($this->fecha_nacimiento) {
             $period = date_diff(date_create($this->fecha_nacimiento), date_create('now'))->y;
-            $text = $period < 2 ? 'año' : 'años';
+            $text = $period == 1 ? 'año' : 'años';
 
             if ($period < 1) {
                 $period = date_diff(date_create($this->fecha_nacimiento), date_create('now'))->m;
-                $text = $period < 2 ? 'mes' : 'meses';
+                $text = $period == 1 ? 'mes' : 'meses';
             }
 
             return "$period $text";

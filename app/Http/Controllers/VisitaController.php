@@ -34,7 +34,7 @@ class VisitaController extends Controller
      */
     public function index()
     {
-        $visitas = Visita::with('veterinaria:id,nombre', 'veterinario:id,name')
+        $visitas = Visita::with('veterinaria:id,nombre', 'veterinario:id,name', 'mascota')
             ->select('id', 'mascota_id', 'fecha', 'peso', 'user_veterinario_id', 'veterinaria_id')
             ->byVeterinaria()
             ->orderBy('id', 'DESC')

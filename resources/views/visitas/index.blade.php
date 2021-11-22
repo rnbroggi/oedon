@@ -63,7 +63,7 @@
                                                 <td>{{ $visita->id }}</td>
                                                 <td>{{ $visita->fecha ? $visita->fecha->format('d/m/Y H:i:s') : null }}
                                                 </td>
-                                                <td>{{ $visita->peso }} kg</td>
+                                                <td>{{ $visita->peso ? $visita->peso.' kg' : '-' }}</td>
                                                 <td>{{ $visita->veterinario->name ?? null }}</td>
                                                 @if ($visita->mascota->nombre)
                                                     <td>

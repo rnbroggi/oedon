@@ -149,8 +149,7 @@
                                             <label for="observaciones">Observaciones</label>
                                             <fieldset class="form-label-group">
                                                 <textarea class="form-control" name="observaciones" rows="3"
-                                                    placeholder="Observaciones">{{ $mascota->observaciones }}
-                                                </textarea>
+                                                    placeholder="Observaciones">{{ $mascota->observaciones }}</textarea>
                                             </fieldset>
                                         </div>
 
