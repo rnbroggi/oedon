@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('audits', 'AuditController@index')->name('audits.index')->middleware('can:audits-logs');
 
     // Veterinarias
-    Route::resource('veterinarias', 'VeterinariaController')->middleware('can:crud usuarios');
+    Route::resource('veterinarias', 'VeterinariaController')->middleware('can:crud veterinarias');
 
     // Clientes
     Route::get('clientes', 'ClienteController@index')->name('clientes.index')->middleware('can:view clientes');
