@@ -39,10 +39,11 @@ class Visita extends Model implements Auditable, HasMedia
         $logged_user = Auth::user();
         if ($logged_user->hasRole('superadmin')) return;
 
-        if ($logged_user->hasRole('cliente'))
+        if ($logged_user->hasRole('cliente')){
             return $query->whereHas('mascota', function ($q) use ($logged_user) {
                 $q->where('user_id', $logged_user->id);
             });
+        }
 
         return $query->where('veterinaria_id', $logged_user->veterinaria_id ?? 0);
     }
