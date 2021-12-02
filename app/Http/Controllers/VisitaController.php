@@ -34,13 +34,17 @@ class VisitaController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['name' => "Visitas"]
+        ];
+
         $visitas = Visita::with('veterinaria:id,nombre', 'veterinario:id,name', 'mascota')
             ->select('id', 'mascota_id', 'fecha', 'peso', 'user_veterinario_id', 'veterinaria_id')
             ->byVeterinaria()
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('visitas.index', compact('visitas'));
+        return view('visitas.index', compact('visitas', 'breadcrumbs'));
     }
 
     /**
@@ -50,6 +54,10 @@ class VisitaController extends Controller
      */
     public function create(Request $request)
     {
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/visitas", 'name' => "Visitas"], ['name' => "Crear visita"]
+        ];
+
         $selected_mascota = $request->mascota_id;
 
         $mascotas = Mascota::with(['cliente' => function ($q) {
@@ -77,7 +85,7 @@ class VisitaController extends Controller
             }
         }
 
-        return view('visitas.create', compact('mascotas', 'veterinarios', 'selected_mascota'));
+        return view('visitas.create', compact('mascotas', 'veterinarios', 'selected_mascota', 'breadcrumbs'));
     }
 
     /**
@@ -116,7 +124,11 @@ class VisitaController extends Controller
      */
     public function show(Visita $visita)
     {
-        return view('visitas.show', compact('visita'));
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/visitas", 'name' => "Visitas"], ['name' => "Detalle de la visita"]
+        ];
+
+        return view('visitas.show', compact('visita', 'breadcrumbs'));
     }
 
     /**
@@ -127,6 +139,10 @@ class VisitaController extends Controller
      */
     public function edit(Visita $visita)
     {
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/visitas", 'name' => "Visitas"], ['name' => "Editar visita"]
+        ];
+
         $mascotas = Mascota::with(['cliente' => function ($q) {
             $q->with('veterinaria:id,nombre');
         }])
@@ -153,7 +169,7 @@ class VisitaController extends Controller
 
         $mascotas = $mascotas->orderBy('nombre', 'ASC')->get();
 
-        return view('visitas.edit', compact('mascotas', 'veterinarios', 'visita'));
+        return view('visitas.edit', compact('mascotas', 'veterinarios', 'visita', 'breadcrumbs'));
     }
 
     /**
